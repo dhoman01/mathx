@@ -7,78 +7,53 @@
 */
 #include <cmath>
 #include <cstdlib>
+#include <iomanip>
 #include <iostream>
 #include <limits>
 #include <sstream>
 #include <string>
 #include "mathx.hpp"
 
+template <typename T>
+void printElement(char align, T t, const int& width, char fill) {
+  std::cout << (align == 'L' ? std::left : std::right) << std::setw(width)
+            << std::setfill(fill) << t;
+}
+
 /**
 * @brief This is the main driver for Mathx.
 * @details Use this to solve your problems. It includes all the relevant
 * headers. Referer to the documentation to determine what fundtion you need.
 */
-
-std::string problem_one();
-std::string problem_three();
-double problem_five(int, double);
-double rec_evaluation(double, int, int, double);
-
 int main() {
-  auto one = problem_one();
-  auto three = problem_three();
-  auto five = problem_five(20, std::pow(10, -5));
+  mathx::complex<double> w(3.0001, 4.0001);
+  mathx::complex<double> z(2.9999, 3.9999);
+  double u[5] = {1, 1, -1.5, 100, 100};
+  double v[5] = {0.99, 1.01, -1.2, 99.99, 99};
+  printElement('R', "u", 6, ' ');
+  printElement('R', "v", 6, ' ');
+  printElement('R', "Absolute Error", 15, ' ');
+  printElement('R', "Relative Error", 15, ' ');
+  std::cout << std::endl;
+  printElement('R', "-", 45, '-');
+  std::cout << std::endl;
+  for (int i = 0; i < 5; i++) {
+    printElement('R', u[i], 6, ' ');
+    printElement('R', v[i], 6, ' ');
+    printElement('R', mathx::utils::error::e_abs(u[i], v[i]), 15, ' ');
+    printElement('R', mathx::utils::error::e_rel(u[i], v[i]), 15, ' ');
+    std::cout << std::endl;
+  }
 
-  // std::cout << "Problem One\n-----------------" << std::endl;
-  // std::cout << one << std::endl;
-  // std::cout << "\n\nProblem Three\n----------------" << std::endl;
-  // std::cout << three << std::endl;
-  std::cout << "\n\nProblem Five\n----------------" << std::endl;
-  std::cout << five << std::endl;
+  std::cout << std::endl;
+
+  std::cout << "w=" << w << std::endl;
+  std::cout << "z=" << z << std::endl;
+  std::cout << "|w|=" << mathx::utils::absolute_value(w) << std::endl;
+  std::cout << "w+z=" << w + z << std::endl;
+  std::cout << "w-z=" << w - z << std::endl;
+  std::cout << "e_abs>" << mathx::utils::error::e_abs(w, z) << std::endl;
+  std::cout << "e_rel>" << mathx::utils::error::e_rel(w, z) << std::endl;
 
   return EXIT_SUCCESS;
-}
-
-std::string problem_one() {
-  std::stringstream ss;
-  auto f = [](double x) { return std::exp(-2 * x); };
-  auto df = [](double x) { return -2 * std::exp(-2 * x); };
-  auto x = 0.5;
-
-  ss << "h, Absolute Error(one-sided diff.)" << std::endl;
-  for (int h_exp = 0; h_exp >= -16; h_exp--) {
-    auto h = std::pow(10, h_exp);
-    ss << std::scientific << h << ", "
-       << mathx::utils::error::one_sided_difference(f, df, x, h) << std::endl;
-  }
-
-  return ss.str();
-}
-
-std::string problem_three() {
-  std::stringstream ss;
-  auto f = [](double x) { return std::sin(x); };
-  auto df = [](double x) { return std::cos(x); };
-  auto x = 1.2;
-
-  ss << "h, Absolute Error(centeral-diff.)" << std::endl;
-  for (int h_exp = 0; h_exp >= -16; h_exp--) {
-    auto h = std::pow(10, h_exp);
-    ss << std::scientific << h << ", "
-       << mathx::utils::error::central_difference(f, df, x, h) << std::endl;
-  }
-
-  return ss.str();
-}
-
-double problem_five(int n, double des) {
-  int n1 = n + std::abs(std::log10(des)) + 1;
-  int e = 0;
-  double eval = rec_evaluation(0.0, n1, e, des);
-  return eval;
-}
-
-double rec_evaluation(double y_n, int n, int e, double des) {
-  if (std::pow(.1, e) <= des) return y_n;
-  return rec_evaluation(.1 * ((1.0 / n - (y_n))), --n, ++e, des);
 }

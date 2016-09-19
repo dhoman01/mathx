@@ -3,11 +3,26 @@
 
 #include <cmath>
 #include <cstdlib>
+#include <exception>
+#include <typeinfo>
+#include "mathx.hpp"
 
 namespace mathx {
+class divide_by_zero : public std::exception {
+  virtual const char *what() const throw() { return "Cannot divide by zero!"; }
+} divide_by_zero;
 /*! The utils namespace contains useful utility methods that are seperated by
  * namespaces. */
 namespace utils {
+
+template <typename T>
+T absolute_value(T x) {
+  return x >= 0 ? x : -1 * x;
+}
+template <typename T>
+double absolute_value(mathx::complex<T> x) {
+  return std::sqrt((x.real * x.real) + (x.imaginary * x.imaginary));
+}
 
 /*! The precision namespace contains useful methods dealing with precision */
 namespace precision {
@@ -86,7 +101,7 @@ typedef double function(double);
 */
 // clang-format off
 double one_sided_difference(function *f, function *df, double x, double h) {
-  return std::abs(df(x) - (f(x + h) - f(x)) / h);
+  return absolute_value(df(x) - (f(x + h) - f(x)) / h);
 }
 // clang-format off
 /**
@@ -122,7 +137,39 @@ double one_sided_difference(function *f, function *df, double x, double h) {
 */
 // clang-format on
 double central_difference(function *f, function *df, double x, double h) {
-  return std::abs(df(x) - (f(x + h) - f(x - h)) / (2 * h));
+  if (h == 0) throw divide_by_zero;
+  return absolute_value(df(x) - (f(x + h) - f(x - h)) / (2 * h));
+}
+
+// clang-format off
+/**
+* @brief Calculates the absolute error in the approximation of one number  of type T by another.
+* @details Absolute error of two numbers of type T is defined as:
+* \f[|x-x_0|<\epsilon_{abs}, \textrm{ where $x$ and $y$ are type T}
+* @param x A number approximation of type T and is greater than 0
+* @param x0 An approximation of x
+*/
+// clang-format on
+template <typename T>
+T e_abs(T x, T x0) {
+  return absolute_value(x - x0);
+}
+
+template <typename T>
+T e_abs(mathx::complex<T> x, mathx::complex<T> x0) {
+  return absolute_value(x - x0);
+}
+
+template <typename T>
+T e_rel(T x, T x0) {
+  if (x == 0) throw divide_by_zero;
+  return absolute_value(x - x0) / absolute_value(x);
+}
+
+template <typename T>
+T e_rel(mathx::complex<T> x, mathx::complex<T> x0) {
+  if (x.real == 0 && x.imaginary == 0) throw divide_by_zero;
+  return absolute_value(x - x0) / absolute_value(x);
 }
 }
 }
