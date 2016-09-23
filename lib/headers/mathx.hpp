@@ -3,13 +3,19 @@
 
 #include <cmath>
 #include <iostream>
+#include "vectors.hpp"
 
 namespace mathx {
+class divide_by_zero : public std::exception {
+  virtual const char* what() const throw() { return "Cannot divide by zero!"; }
+} divide_by_zero;
+
 template <typename T>
 struct complex {
   complex<T>(T r, T i) : real(r), imaginary(i){};
   T real;
   T imaginary;
+
   complex operator+(const complex& rhs) {
     return complex(real + rhs.real, imaginary + rhs.imaginary);
   }
@@ -25,6 +31,10 @@ struct complex {
   friend std::istream& operator>>(std::istream& is, const complex<T>& obj) {
     is >> obj.real >> obj.imaginary;
     return is;
+  }
+
+  friend bool operator==(const complex<T>& lhs, const complex<T>& rhs) {
+    return lhs.real == rhs.real && lhs.imaginary == rhs.imaginary;
   }
 };
 }

@@ -8,17 +8,17 @@
 #include "mathx.hpp"
 
 namespace mathx {
-class divide_by_zero : public std::exception {
-  virtual const char *what() const throw() { return "Cannot divide by zero!"; }
-} divide_by_zero;
 /*! The utils namespace contains useful utility methods that are seperated by
  * namespaces. */
 namespace utils {
 
+// Return the absolute value of a real number
 template <typename T>
 T absolute_value(T x) {
   return x >= 0 ? x : -1 * x;
 }
+
+// Return the absolute value of a complex number
 template <typename T>
 double absolute_value(mathx::complex<T> x) {
   return std::sqrt((x.real * x.real) + (x.imaginary * x.imaginary));

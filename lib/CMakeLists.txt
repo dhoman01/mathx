@@ -19,18 +19,16 @@ set(GTEST_DIR /home/dustin/Documents/googletest/googletest)
 # Testing #
 ###########
 if(test)
-  set(TEST_DIR ./tests)
+  include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR} ./tests)
+  set(TESTS ./tests)
   add_subdirectory(./gtest-1.8.0)
 
   enable_testing()
 
-  include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
-
   ########
   # Unit #
   ########
-  add_executable(${PROJECT_NAME}Tests ${TEST_DIR}/tests.cpp)
-
+  add_executable(${PROJECT_NAME}Tests ${TESTS}/tests.cpp)
   target_link_libraries(${PROJECT_NAME}Tests gtest gtest_main)
   add_test(NAME ${PROJECT_NAME}-tests COMMAND ${PROJECT_NAME}Tests)
 endif()
