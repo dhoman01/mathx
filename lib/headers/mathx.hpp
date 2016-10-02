@@ -4,8 +4,16 @@
 #include <cmath>
 #include <iostream>
 #include "vectors.hpp"
+#include "array.hpp"
 
 namespace mathx {
+
+/**
+* @brief Defines the type of a function that has one double parameter and
+* returns a double.
+*/
+typedef double function(double);
+
 class divide_by_zero : public std::exception {
   virtual const char* what() const throw() { return "Cannot divide by zero!"; }
 } divide_by_zero;
@@ -40,5 +48,6 @@ struct complex {
 }
 #include "integration.hpp"
 #include "utils.hpp"
+#include "roots.hpp"
 
 #endif

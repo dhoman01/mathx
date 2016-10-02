@@ -1,6 +1,8 @@
-#include "MathxTest.cpp"
-#include "UtilsTest.cpp"
-#include "VectorsTest.cpp"
+#include "MathxTest.hpp"
+#include "UtilsTest.hpp"
+#include "ArrayTest.hpp"
+#include "VectorsTest.hpp"
+#include "RootsTest.hpp"
 #include "gtest/gtest.h"
 
 int main(int argc, char **argv) {

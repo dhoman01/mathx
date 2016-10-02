@@ -1,7 +1,12 @@
 cmake_minimum_required(VERSION 3.0.2)
 
 option(test "Build all tests." OFF)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -O0 -g3 -Wall -pthread")
+if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -stdlib=libc++ -O3 -g0 -Wall -pthread")
+else()
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -O3 -g0 -Wall -pthread")
+endif()
+
 set(PROJECT_NAME Mathx)
 project (${PROJECT_NAME})
 

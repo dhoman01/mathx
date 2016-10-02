@@ -61,12 +61,6 @@ T machine_epsilon() {
 /*! The error namespace contains useful methods for calulating error. */
 namespace error {
 
-/**
-* @brief Defines the type of a function that has one double parameter and
-* returns a double.
-*/
-typedef double function(double);
-
 // clang-format off
 /**
 * @brief Calculates the absolute error of an approximation of \f$f'(x)\f$ using

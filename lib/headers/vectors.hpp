@@ -3,7 +3,7 @@
 
 #include <cmath>
 #include <exception>
-#include <vector>
+#include "array.hpp"
 
 namespace mathx {
 namespace vectors {
@@ -15,7 +15,7 @@ class not_equal_exception : public std::exception {
 } not_equal_exception;
 
 template <typename T>
-T dotProduct(std::vector<T> v, std::vector<T> w) {
+T dotProduct(array<T> v, array<T> w) {
   if (v.size() != w.size()) throw not_equal_exception;
   T product = 0;
   for (int i = 0; i < v.size(); i++) {
@@ -26,30 +26,30 @@ T dotProduct(std::vector<T> v, std::vector<T> w) {
 }
 
 template <typename T>
-T euclideanLength(std::vector<T> v) {
+T euclideanLength(array<T> v) {
   return std::sqrt(dotProduct(v, v));
 }
 
 template <typename T>
-std::vector<T> crossProduct(std::vector<T> v, std::vector<T> w) {
+array<T> crossProduct(array<T> v, array<T> w) {
   if (v.size() != w.size() && v.size() != 3) throw not_equal_exception;
-  std::vector<T> vxw = {v[1] * w[2] - v[2] * w[1], v[2] * w[0] - v[0] * w[2],
+  array<T> vxw = {v[1] * w[2] - v[2] * w[1], v[2] * w[0] - v[0] * w[2],
                         v[0] * w[1] - v[1] * w[0]};
   return vxw;
 }
 
 template <typename T>
-T oneNorm(std::vector<T> v) {
+T oneNorm(array<T> v) {
   T norm = 0;
-  for (T e : v) {
+
+  for (T e : v)
     norm += std::abs(e);
-  }
 
   return norm;
 }
 
 template <typename T>
-T maxNorm(std::vector<T> v) {
+T maxNorm(array<T> v) {
   T max = 0;
   for (int i = 0; i < v.size(); i++) {
     T x = std::abs(v[i]);
