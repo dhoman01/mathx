@@ -65,3 +65,10 @@ TEST(RelateiveErrorTest, ComplexIn) {
   mathx::complex<double> z(2.9999, 3.9999);
   EXPECT_NEAR(0.000056567, mathx::utils::error::e_rel(w, z), 0.00001);
 }
+
+TEST(PolyTest, NestedEvalTest){
+  mathx::array<double> coeff = {-512, 2304, -4608, 5376, -4032, 2016, -672, 144, -18, 1};
+  double x = 5;
+  double p = mathx::utils::poly::nested_eval(coeff, x);
+  EXPECT_NEAR(19683, p, 0.00001);
+}

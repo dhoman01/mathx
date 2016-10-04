@@ -166,6 +166,29 @@ T e_rel(mathx::complex<T> x, mathx::complex<T> x0) {
   return absolute_value(x - x0) / absolute_value(x);
 }
 }
+
+namespace poly {
+/**
+* @brief This method evaluates a polynomial using the nested method.
+* @details The nested method of evaluating a polynomial is as follows:
+* \f[p_n(x)=(\cdots((c_nx+c_{n-1})x + c_{n-2})x \cdots)x + c_0 \f]
+* @param coeff - an array of the coefficients of the polynomial. \f$p(x)=c_0+c_1x+c_2x^2+\cdots+c_nx^2 \f$
+* @param x - the value to evaluate \f$p\f$ at
+*/
+template<typename T>
+T nested_eval(array<T> coeff, T x){
+  // Initialize p
+  T p = coeff[coeff.size() - 1];
+
+  // Loop through the coefficients "unwrapping"
+  // the evaluation
+  for(int i = coeff.size() - 2; i >= 0; i--)
+    p = p*x + coeff[i];
+
+  // Return answer
+  return p;
+}
+}
 }
 }
 

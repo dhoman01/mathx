@@ -18,6 +18,13 @@ class divide_by_zero : public std::exception {
   virtual const char* what() const throw() { return "Cannot divide by zero!"; }
 } divide_by_zero;
 
+template<typename T>
+void swap(T& a, T& b){
+  T temp = a;
+  a = b;
+  b = temp;
+}
+
 template <typename T>
 struct complex {
   complex<T>(T r, T i) : real(r), imaginary(i){};
