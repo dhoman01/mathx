@@ -36,8 +36,8 @@ namespace mathx {
       // If user inputs a > b
       // swap a and b, fa and fb
       if(a > b) {
-        swap(a, b);
-        swap(fa, fb);
+        std::swap(a, b);
+        std::swap(fa, fb);
       }
 
       // Work loop
@@ -122,10 +122,16 @@ namespace mathx {
       for(uint k = 0; k < max && std::abs(x0 - xk) > tol; k++){
         xk = x0;                // Store x_k
 
-        // If the derivative equals 0 retrun NaN
-        if(df(xk) == 0) return std::nan("0");
+        double fk = f(xk);
+        double dfk = df(xk);
 
-        x0 = xk - f(xk)/df(xk); // Store x_{k+1}
+        // If xk is a root return
+        if(fk == 0) return xk;
+
+        // If the derivative equals 0 retrun NaN
+        if(dfk == 0) return std::nan("0");
+
+        x0 = xk - fk/dfk; // Store x_{k+1}
       }
 
       // Either the tolerance or max
