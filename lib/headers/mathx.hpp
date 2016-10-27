@@ -5,6 +5,8 @@
 #include <iostream>
 #include "vectors.hpp"
 #include "array.hpp"
+#include "matrix.hpp"
+#include "linsys.hpp"
 
 namespace mathx {
 

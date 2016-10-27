@@ -50,6 +50,16 @@ public:
   array<T>(int c) : container(new T[c]), mysize(0), mycapacity(c){};
 
   /**
+  * Constructor initializing container to capacity c with value v
+  * @param c - an int value to set the initial capacity
+  * @param v - a value to set all elements to
+  */
+  array<T>(int c, T v): container(new T[c]), mysize(c), mycapacity(c){
+    for(int i = 0; i < c; i++){
+      container[i] = v;
+    }
+  };
+  /**
   * Constructor accepting an initializer list
   * @details Allows assignment of array like array<int> arr = {1,2,3,4};
   * @param c - an initializer list (i.e {0,1,2,3})
@@ -104,6 +114,30 @@ public:
   T& operator[](std::size_t i) const { return container[i]; };
 
   /**
+  * Overload of plus operator
+  * @param rhs - another array to add to this one
+  */
+  array<T> operator+(const array<T> rhs){
+    array<T> n(mysize);
+    for(int i = 0; i < mysize; i++)
+      n.push(container[i] + rhs.container[i]);
+
+    return n;
+  }
+
+  /**
+  * Overload of minus operator
+  * @param rhs - another array to subtract from this one
+  */
+  array<T> operator-(const array<T> rhs){
+    array<T> n(mysize);
+    for(int i = 0; i < mysize; i++)
+      n.push(container[i] - rhs.container[i]);
+
+    return n;
+  }
+
+  /**
   * @brief An iterator class for array
   * @detail This class enables use of array in
   * functions expecting iterators such as for each loops
@@ -148,10 +182,10 @@ public:
 };
 
 // PRIVATE METHODS
-template<typename T>
 /**
 * Implementation of the private method array::grow()
 */
+template<typename T>
 void array<T>::grow(){
   // Set the new capacity to double the current. 0 -> 2, 2 -> 4, ...
   // Doubling the array every grow leads to amortized O(n) grow operations
