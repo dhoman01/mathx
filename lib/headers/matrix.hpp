@@ -2,6 +2,10 @@
 #define MATRIX_HPP
 
 #include "goodrand.hpp"
+#include <cfloat>
+#include <iostream>
+#include <iomanip>
+#include <sstream>
 
 namespace mathx {
 
@@ -44,10 +48,39 @@ public:
     if(rand){
       for(int i = 0; i < row; i++)
         for(int j = 0; j < col; j++)
-          container[i][j] = (i == j ? 10 * i + goodrand::getRand(0.0, 1.0) : goodrand::getRand(0.0, 1.0));
+          container[i][j] = (i == j ? 10 * i + goodrand::getRand(1.0, 2.0) : goodrand::getRand(0.0, 1.0));
 
     }
   };
+
+  /**
+  * Constructor initializing container to r rows and c columns to value v
+  * @param r - int value to set the number of rows
+  * @param c - int value to set the number of columns
+  * @param rand = true - bool to initialize with random numbers
+  */
+  matrix<T>(int r, int c, T v): container(new T*[r]), col(c), row(r){
+    for(int i = 0; i < r; i++){
+      container[i] = new T[c];
+      for(int j = 0; j < c; j++){
+        container[i][j] = v;
+      }
+    }
+  };
+
+  /**
+  * Overload of matrix index operators. Same as get(i)
+  * @param i - index of element. i < mysize
+  */
+  T* operator[](std::size_t i){ return container[i]; };
+
+  /**
+  * Overload of matrix index operators. Same as get(i)
+  * @param i - index of element. i < mysize
+  */
+  T* operator[](std::size_t i) const { return container[i]; };
+
+  bool hasPivoted = false;
 
   /**
   * Get value at location r,c
@@ -69,6 +102,70 @@ public:
   }
 
   /**
+  * Check if matrix is symmetric
+  */
+  bool is_symmetric(){
+    for(int i = 0; i < row; i++){
+      for(int j = 0; j < col; j++){
+        if(container[i][j] != container[j][i])
+          return false;
+      }
+    }
+
+    return true;
+  }
+
+  /**
+  * Find a pivot using the parital pivoting strategy
+  * @param k - the current pass for GE or LU Decomposition
+  */
+  int find_pivot(int k){
+    // Find the best pivot (best is max)
+    T qmax = std::abs(container[k][k]);
+    int kpiv = k;
+    for(int i = k + 1; i < row; i++){
+      T qtemp = std::abs(container[i][k]);
+      if(qtemp > qmax){
+        kpiv = i;
+        qmax = qtemp;
+        hasPivoted = true;
+      }
+    }
+
+    return kpiv;
+  }
+
+  /**
+  * Find a pivot using the scaled parital pivoting strategy
+  * @param k - the current pass for GE or LU Decomposition
+  */
+  int find_scaled_pivot(int k){
+    // Find the scale
+    array<T> s(row);
+    for(int i = 0; i < row; i++){
+      s[i] = std::abs(container[i][0]);
+      for(int j = 0; j < col; j++){
+        if(std::abs(container[i][j]) > s[i])
+          s[i] = std::abs(container[i][j]);
+      }
+    }
+
+    // Find the best pivot (best is max)
+    T qmax = std::abs(container[k][k]) / s[k];
+    int kpiv = k;
+    for(int i = k + 1; k < row; k++){
+      T qtmp = std::abs(container[i][k]) / s[i];
+      if(qtmp > qmax){
+        kpiv = i;
+        qmax = qtmp;
+        hasPivoted = true;
+      }
+    }
+
+    return kpiv;
+  }
+
+  /**
   * Swap two rows of the matrix
   * @param r1 - row one position
   * @param r2 - row two position
@@ -86,6 +183,53 @@ public:
   * Get the number of rows in the matrix
   */
   int rows(){ return row; };
+
+  /**
+  * Calculate the one-norm of the matrix
+  */
+  T one_norm(){
+    T max = 0;
+    for(int j = 0; j < col; j++){
+      T sum = 0;
+      for(int i = 0; i < row; i++)
+        sum += container[i][j];
+
+      if(sum > max)
+        max = sum;
+    }
+
+    return max;
+  }
+
+  /**
+  * Calculate the infinity-norm of the matrix
+  */
+  T infinity_norm(){
+    T max = 0;
+    for(int i = 0; i < row; i++){
+      T sum = 0;
+      for(int j = 0; j < col; j++)
+        sum += container[i][j];
+      if(sum > max)
+        max = sum;
+    }
+    
+    return max;
+  }
+
+  /**
+  * Returns a string representation of the matrix
+  */
+  std::string to_string(){
+    std::stringstream ss;
+    for(int i = 0; i < row; i++){
+      for(int j = 0; j < col; j++)
+        ss << std::setw(10) << std::left << container[i][j] << " ";
+      ss << std::endl;
+    }
+
+    return ss.str();
+  }
 };
 
 };
