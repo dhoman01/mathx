@@ -270,12 +270,12 @@ namespace mathx {
     }
 
     /**
-    * @brief Decompose A into QR
+    * @brief Decompose A into QR (where R = (Q^T)A) using MGS
     * @details
     * @param A - input matrix
     */
     template<typename T>
-    matrix<T> qr_factorization(matrix<T>& A){
+    matrix<T> qr_factorization_mgs(matrix<T>& A){
       int n = A.rows();
 
       matrix<T> Q(n,n, (T) 0);
@@ -476,7 +476,7 @@ namespace mathx {
 
       // Compute C from Q transpose x b
       array<T> c = product(qT, b);
-      
+
       // Use back substitution to solve Rx = c
       return back_substitution(R,c);
     }
