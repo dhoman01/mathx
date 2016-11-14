@@ -13,15 +13,24 @@ namespace mathx {
     * @param x - input vector
     */
     template<typename T>
-    array<T> product(matrix<T>& A, array<T>& x){
-      array<T> b(x.size(), 0);
-      for(int i = 0; i < A.rows(); i++){
+    array<T> product(matrix<T>& A, array<T>& x, bool a_trans = false){
+      if(a_trans){
+        array<T> b(A.cols(), 0);
         for(int j = 0; j < A.cols(); j++){
-          b[i] += A[i][j] * x[j];
+          for(int i = 0; i < A.rows(); i++){
+            b[j] += A[i][j] * x[i];
+          }
         }
+        return b;
+      } else {
+        array<T> b(A.rows(), 0);
+        for(int i = 0; i < A.rows(); i++){
+          for(int j = 0; j < A.cols(); j++){
+            b[i] += A[i][j] * x[j];
+          }
+        }
+        return b;
       }
-
-      return b;
     }
 
     /**
@@ -41,6 +50,41 @@ namespace mathx {
       b[x.size() - 1] = al[x.size() - 1] * x[x.size() - 2] + am[x.size() - 1] * x[x.size() - 1];
 
       return b;
+    }
+
+    /**
+    * Returns transpose of a matrix
+    * @param A - input matrix
+    */
+    template<typename T>
+    matrix<T> transpose(matrix<T>& A){
+      matrix<T> B(A.cols(), A.rows());
+      for(int j = 0 ; j < A.cols(); j++){
+        for(int i = 0; i < A.rows(); i++){
+          B[j][i] = A[i][j];
+        }
+      }
+
+      return B;
+    }
+
+    /**
+    * @brief Multiply a matrix by its transpose (A^T)A
+    * @details
+    * @param A - input matrix
+    **/
+    template<typename T>
+    matrix<T> mult_transpose(matrix<T>& A){
+      matrix<T> B(A.cols(),A.cols());
+      for(int i = 0; i < A.cols(); i++){
+        for(int j = 0; j < A.cols(); j++){
+          for(int k = 0; k < A.rows(); k++){
+            B[i][j] += A[k][i]*A[k][j];
+          }
+        }
+      }
+
+      return B;
     }
 
     /**
@@ -204,6 +248,42 @@ namespace mathx {
     }
 
     /**
+    * @brief Decompose A into QR
+    * @details
+    * @param A - input matrix
+    */
+    template<typename T>
+    std::pair<matrix<T>, matrix<T>> qr_factorization(matrix<T>& A){
+      matrix<T> Q(A.rows(), A.rows(), (T) 0);
+      matrix<T> R(A.cols(), A.cols(), (T) 0);
+
+      int m = A.rows();
+      int n = A.cols();
+      for(int k = 0; k < n; k++){
+        std::cout << "k: " << k << std::endl;
+        for(int i = 0; i < m; i++){
+          R[k][k] += A[i][k] * A[i][k];
+          Q[i][k] = A[i][k];
+        }
+        R[k][k] = std::sqrt(R[k][k]);
+        std::cout << "R[" << k << "][" << k << "]: " << R[k][k] << std::endl;
+        for(int i = 0; i < m; i++)
+          Q[i][k] = A[i][k] / R[k][k];
+
+        for(int j = k + 1; j < n; j++){
+          std::cout << "j: " << j << std::endl;
+          for(int i = 0; i < m; i ++)
+            R[k][j] += Q[i][k] * A[i][j];
+          for(int i = 0; i < m; i++)
+            Q[i][j] -= R[k][j] * Q[i][k];
+        }
+      }
+
+
+      return std::make_pair(Q,R);
+    }
+
+    /**
     * @brief Find a lower bound of the condition number of a square matrix
     * @details
     * @param A - input matrix
@@ -324,6 +404,25 @@ namespace mathx {
         }
       }
 
+    }
+
+    /**
+    * @brief Solve the Least Squares via Normal Equations
+    * @details
+    * @param A - input matrix
+    * @param b - solution vector
+    */
+    template<typename T>
+    array<T> least_squares(matrix<T>& A, array<T>& b){
+      matrix<T> B = mult_transpose(A);
+      // std::cout << "A" << std::endl;
+      // std::cout << A.to_string() << std::endl;
+      // std::cout << "\nB" << std::endl;
+      // std::cout << B.to_string() << std::endl;
+      // std::cout << "\nb: " << b.to_string() << std::endl;
+      array<T> y = product(A, b, true);
+      // std::cout << "\ny: " << y.to_string() << std::endl;
+      return solve(B, y);
     }
   }
 }

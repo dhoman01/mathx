@@ -69,6 +69,24 @@ public:
   };
 
   /**
+  * Constructor accepting an initializer list
+  * @details Allows assignment of matrix like matrix<int> arr = {{1,2,3},{4,5,6}};
+  * @param c - an initializer list (i.e {{0,1,2},{3,4,5}})
+  */
+  matrix<T>(std::initializer_list<std::initializer_list<T>> c){
+    container = new T*[c.size()];
+    row = c.size();
+    col = c.begin()->size();
+    int i = 0;
+    for(auto c_sub : c){
+      if((int)c_sub.size() != col) throw std::runtime_error("All rows must have the same number of elements");
+      container[i] = new T[c_sub.size()];
+      std::copy(c_sub.begin(), c_sub.end(), container[i]);
+      i++;
+    }
+  }
+
+  /**
   * Overload of matrix index operators. Same as get(i)
   * @param i - index of element. i < mysize
   */
@@ -213,7 +231,7 @@ public:
       if(sum > max)
         max = sum;
     }
-    
+
     return max;
   }
 

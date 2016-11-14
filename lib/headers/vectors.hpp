@@ -25,9 +25,24 @@ T dotProduct(array<T> v, array<T> w) {
   return product;
 }
 
+template<typename T>
+T dot_product(T* v, T* w, int size){
+  T product = 0;
+  for(int i = 0; i < size; i++){
+    product += v[i] * w[i];
+  }
+
+  return product;
+}
+
 template <typename T>
 T euclideanLength(array<T> v) {
   return std::sqrt(dotProduct(v, v));
+}
+
+template <typename T>
+T euclideanLength(T* v, int size){
+  return std::sqrt(dot_product(v,v,size));
 }
 
 template <typename T>

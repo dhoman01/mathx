@@ -1,6 +1,7 @@
 #ifndef ARRAY_HPP
 #define ARRAY_HPP
 
+#include <sstream>
 #include <stdexcept>
 #include <iostream>
 
@@ -59,6 +60,7 @@ public:
       container[i] = v;
     }
   };
+
   /**
   * Constructor accepting an initializer list
   * @details Allows assignment of array like array<int> arr = {1,2,3,4};
@@ -138,6 +140,19 @@ public:
   }
 
   /**
+  * Return a string representation of array
+  */
+  std::string to_string(){
+    std::stringstream ss;
+    ss << "[ ";
+    for(int i = 0; i < mysize; i++){
+      ss << container[i] << " ";
+    }
+    ss << "]^T";
+    return ss.str();
+  }
+
+  /**
   * @brief An iterator class for array
   * @detail This class enables use of array in
   * functions expecting iterators such as for each loops
@@ -163,6 +178,7 @@ public:
     * Overload of * operator for access to data pointed to by ptr
     */
     const T& operator*() const { return *ptr; }
+
   private:
     /**
     * Stores the reference to the iteraree
