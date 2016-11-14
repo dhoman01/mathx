@@ -241,12 +241,15 @@ public:
   std::string to_string(){
     std::stringstream ss;
     for(int i = 0; i < row; i++){
-      for(int j = 0; j < col; j++)
+      for(int j = 0; j < col; j++){
         ss << std::setw(10) << std::left << container[i][j] << " ";
+      }
       ss << std::endl;
     }
 
-    return ss.str();
+    std::string output = ss.str();
+    ss.str("");
+    return output;
   }
 };
 

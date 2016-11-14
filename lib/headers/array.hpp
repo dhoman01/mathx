@@ -140,16 +140,15 @@ public:
   }
 
   /**
-  * Return a string representation of array
+  * Prints a string representation of array
   */
   std::string to_string(){
-    std::stringstream ss;
-    ss << "[ ";
+    std::cout << "[ ";
     for(int i = 0; i < mysize; i++){
-      ss << container[i] << " ";
+      std::cout << container[i] << " ";
     }
-    ss << "]^T";
-    return ss.str();
+    std::cout << " ]^T";
+    return "";
   }
 
   /**

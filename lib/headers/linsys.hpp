@@ -2,6 +2,7 @@
 #include <iostream>
 #include <iomanip>
 #include <stdexcept>
+#include <string>
 
 namespace mathx {
   namespace linsolv {
@@ -53,6 +54,26 @@ namespace mathx {
     }
 
     /**
+    * @brief Multiply two matrices
+    * @details
+    * @param A - input matrix
+    * @param x - input vector
+    */
+    template<typename T>
+    matrix<T> product(matrix<T>& A, matrix<T>& B){
+      matrix<T> C(A.rows(), B.cols());
+      for(int i = 0; i < A.rows(); i++){
+        for(int j = 0; j < B.cols(); j++){
+          for(int k = 0; k < A.cols(); k++){
+            C[i][j] += A[i][k] * B[k][j];
+          }
+        }
+      }
+
+      return C;
+    }
+
+    /**
     * Returns transpose of a matrix
     * @param A - input matrix
     */
@@ -75,7 +96,7 @@ namespace mathx {
     **/
     template<typename T>
     matrix<T> mult_transpose(matrix<T>& A){
-      matrix<T> B(A.cols(),A.cols());
+      matrix<T> B(A.cols(),A.cols(), (T)0);
       for(int i = 0; i < A.cols(); i++){
         for(int j = 0; j < A.cols(); j++){
           for(int k = 0; k < A.rows(); k++){
@@ -227,6 +248,7 @@ namespace mathx {
       for(int i = 0; i < A.rows(); i++)
         for(int j = i; j < A.cols(); j++)
           A[i][j] = A[j][i];
+
     }
 
     /**
@@ -253,34 +275,44 @@ namespace mathx {
     * @param A - input matrix
     */
     template<typename T>
-    std::pair<matrix<T>, matrix<T>> qr_factorization(matrix<T>& A){
-      matrix<T> Q(A.rows(), A.rows(), (T) 0);
-      matrix<T> R(A.cols(), A.cols(), (T) 0);
+    matrix<T> qr_factorization(matrix<T>& A){
+      int n = A.rows();
 
-      int m = A.rows();
-      int n = A.cols();
-      for(int k = 0; k < n; k++){
-        std::cout << "k: " << k << std::endl;
-        for(int i = 0; i < m; i++){
-          R[k][k] += A[i][k] * A[i][k];
-          Q[i][k] = A[i][k];
+      matrix<T> Q(n,n, (T) 0);
+
+      for(int j = 0; j < n; j++){
+        // q_j = a_j
+        for(int i = 0; i < n; i++){
+          Q[i][j] = A[i][j];
         }
-        R[k][k] = std::sqrt(R[k][k]);
-        std::cout << "R[" << k << "][" << k << "]: " << R[k][k] << std::endl;
-        for(int i = 0; i < m; i++)
-          Q[i][k] = A[i][k] / R[k][k];
 
-        for(int j = k + 1; j < n; j++){
-          std::cout << "j: " << j << std::endl;
-          for(int i = 0; i < m; i ++)
-            R[k][j] += Q[i][k] * A[i][j];
-          for(int i = 0; i < m; i++)
-            Q[i][j] -= R[k][j] * Q[i][k];
+        for(int i = 0; i < j; i++){
+          // r_i,j = <q_j, q_i>
+          T rij = 0;
+          for(int k = 0; k < n; k++){
+            rij += Q[k][j] * Q[k][i];
+          }
+
+          // q_j = q_j - r_i,j * q_i
+          for(int k = 0; k < n; k++){
+            Q[k][j] -= rij * Q[k][i];
+          }
+        }
+
+        // r_j,j = ||q_j||
+        T rjj = 0;
+        for(int i = 0; i < n; i++){
+          rjj += Q[i][j] * Q[i][j];
+        }
+        rjj = std::sqrt(rjj);
+
+        // q_j = q_j / r_j,j
+        for(int i = 0; i < n; i++){
+          Q[i][j] /= rjj;
         }
       }
 
-
-      return std::make_pair(Q,R);
+      return Q;
     }
 
     /**
@@ -414,15 +446,39 @@ namespace mathx {
     */
     template<typename T>
     array<T> least_squares(matrix<T>& A, array<T>& b){
+      // Compute (A^T)A
       matrix<T> B = mult_transpose(A);
-      // std::cout << "A" << std::endl;
-      // std::cout << A.to_string() << std::endl;
-      // std::cout << "\nB" << std::endl;
-      // std::cout << B.to_string() << std::endl;
-      // std::cout << "\nb: " << b.to_string() << std::endl;
+
+      // Compute (A^T)b
       array<T> y = product(A, b, true);
-      // std::cout << "\ny: " << y.to_string() << std::endl;
+
+      // Use cholesky factorization to solve
       return solve(B, y);
+    }
+
+
+    /**
+    * @brief Solve the Least Squares via QR Factorization
+    * @details
+    * @param A - input matrix
+    * @param b - solution vector
+    */
+    template<typename T>
+    array<T> least_squares_QR(matrix<T>& A, array<T>& b){
+      // Factorize A into Q
+      matrix<T> Q = qr_factorization(A);
+
+      // Compute Q transpose
+      matrix<T> qT = transpose(Q);
+
+      // Compute R from Q transpose x A
+      matrix<T> R = product(qT, A);
+
+      // Compute C from Q transpose x b
+      array<T> c = product(qT, b);
+      
+      // Use back substitution to solve Rx = c
+      return back_substitution(R,c);
     }
   }
 }
