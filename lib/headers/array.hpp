@@ -73,6 +73,35 @@ public:
   }
 
   /**
+  * Copy constructor
+  */
+  array<T>(const array<T> &a):container(new T[a.mycapacity]),mysize(a.mysize),mycapacity(a.mycapacity){
+    for(int i = 0; i < mysize; i++)
+      container[i] = a[i];
+  };
+
+  /**
+  * assignment operator
+  */
+  array<T>& operator=(const array<T>& rhs){
+    if(this == &rhs)
+      return *this;
+    mysize = rhs.mysize;
+    mycapacity = rhs.mycapacity;
+    container = new T[mycapacity];
+    for(int i = 0; i < mysize; i++)
+      container[i] = rhs[i];
+    return *this;
+  }
+
+  /**
+  * Destructor
+  */
+  ~array<T>(){
+    delete[] container;
+  }
+
+  /**
   * Method to add element to end of array
   */
   void push(T el);

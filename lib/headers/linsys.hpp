@@ -316,6 +316,144 @@ namespace mathx {
     }
 
     /**
+    * @brief Find solution to linear system using Jacobi Iteration
+    *
+    */
+    template<typename T>
+    array<T> jacobi(matrix<T>& A, array<T>& b, array<T>& x0, double tol, int maxiter, bool debug = false){
+      // initialize variables;
+      array<T> xkp1;
+      array<T> xk = x0;
+      int iter = 0;
+      int n = A.cols();
+      double error = tol * 10;
+
+      // Perform iterations until stopping
+      // criteria are met
+      while(iter < maxiter && error > tol){
+        // Compute x^(k+1)[i] for i in [0,n);
+        xkp1 = b;
+        for(int i = 0; i < n; i++){
+          for(int j = 0; j < i; j++)
+            xkp1[i] -= A[i][j] * xk[j];
+
+          for(int j = i + 1; j < n; j++)
+            xkp1[i] -= A[i][j] * xk[j];
+
+          xkp1[i] /= A[i][i];
+        }
+
+        // Calculate error
+        error = vectors::euclideanLength(xkp1 - xk);
+
+        // Assign new variables
+        xk = xkp1;
+        iter++;
+      }
+
+      if(debug) std::cout << n << ", " << iter << std::endl;
+
+      return xkp1;
+    }
+
+    /**
+    * @brief Find solution of linear system using Gauss-Seidel
+    */
+    template<typename T>
+    array<T> gauss_seidel(matrix<T>& A, array<T>& b, array<T>& x0, double tol, int maxiter, bool debug = false){
+      // initialize variables;
+      array<T> xkp1;
+      array<T> xk = x0;
+      int iter = 0;
+      int n = A.cols();
+      double error = tol * 10;
+
+      // Perform iterations until stopping
+      // criteria are met
+      while(iter < maxiter && error > tol){
+        // Compute x^(k+1)[i] for i in [0,n);
+        xkp1 = b;
+        for(int i = 0; i < n; i++){
+          for(int j = 0; j < i; j++)
+            xkp1[i] -= A[i][j] * xkp1[j];
+
+          for(int j = i + 1; j < n; j++)
+            xkp1[i] -= A[i][j] * xk[j];
+
+          xkp1[i] /= A[i][i];
+        }
+
+        // Calculate error
+        error = vectors::euclideanLength(xkp1 - xk);
+
+        // Assign new variables
+        xk = xkp1;
+        iter++;
+      }
+
+      if(debug) std::cout << n << ", " << iter << std::endl;
+
+      return xkp1;
+    }
+
+    /**
+    * @brief Solve linear system using Conjugate Gradient method
+    */
+    template<typename T>
+    array<T> cgm(matrix<T>& A, array<T>& b, array<T>& x0, double tol, int maxiter){
+      // Initialize x^(k+1) and x^(k)
+      array<T> xkp1;
+      array<T> xk = x0;
+
+      // Initialize r^(k+1) and r^(k)
+      array<T> rkp1;
+      array<T> rk = b - product(A,x0);
+
+      // Initialize p^(k+1) and p^(k)
+      array<T> pkp1;
+      array<T> pk = rk;
+
+      // Initialize tolerance and delta
+      tol = std::pow(tol, 2);
+      double deltak = vectors::dotProduct(rk, rk);
+      double deltakp1;
+
+      // Initialize b delta
+      double bdelta = vectors::dotProduct(b, b);
+
+      int iter = 0;
+      int n = A.cols();
+      while(deltak > tol * bdelta && iter < maxiter){
+        array<T> sk = product(A, pk);
+        double alphak = deltak / vectors::dotProduct(pk,sk);
+        xkp1 = xk;
+        rkp1 = rk;
+        // Iterate to find x^(k+1)[i]
+        // and r^(k+1)[i]
+        for(int i = 0; i < n; i++){
+          xkp1[i] += alphak * pk[i];
+          rkp1[i] -= alphak * sk[i];
+        }
+
+        // Find delta k+1 and p^(k+1)
+        deltakp1 = vectors::dotProduct(rkp1, rkp1);
+        pkp1 = rkp1;
+        for(int i = 0; i < n; i++)
+          pkp1[i] += (deltakp1 / deltak) * pk[i];
+
+        // Assign new values
+        xk = xkp1;
+        pk = pkp1;
+        rk = rkp1;
+        deltak = deltakp1;
+
+        iter++;
+      }
+
+      return xkp1;
+    }
+
+    /**
     * @brief Find a lower bound of the condition number of a square matrix
     * @details
     * @param A - input matrix
