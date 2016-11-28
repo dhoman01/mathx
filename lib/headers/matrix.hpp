@@ -87,6 +87,51 @@ public:
   }
 
   /**
+  * Copy Constructor
+  */
+  matrix<T>(const matrix<T>& a){
+    row = a.row;
+    col = a.col;
+    container = new T*[row];
+    for(int i = 0; i < row; i++){
+      container[i] = new T[col];
+      for(int j = 0; j < col; j++){
+        container[i][j] = a[i][j];
+      }
+    }
+  }
+
+  /**
+  * Destructor
+  */
+  ~matrix<T>(){
+    for(int i = 0; i < row; i++){
+      delete[] container[i];
+    }
+
+    delete[] container;
+  }
+
+  /**
+  * Assignment operator overload
+  */
+  matrix<T>& operator=(const matrix<T>& rhs){
+    if(this == &rhs)
+      return *this;
+    row = rhs.row;
+    col = rhs.col;
+    container = new T*[row];
+    for(int i = 0; i < row; i++){
+      container[i] = new T[col];
+      for(int j = 0; j < col; j++){
+        container[i][j] = rhs[i][j];
+      }
+    }
+
+    return *this;
+  }
+
+  /**
   * Overload of matrix index operators. Same as get(i)
   * @param i - index of element. i < mysize
   */
@@ -239,17 +284,14 @@ public:
   * Returns a string representation of the matrix
   */
   std::string to_string(){
-    std::stringstream ss;
     for(int i = 0; i < row; i++){
       for(int j = 0; j < col; j++){
-        ss << std::setw(10) << std::left << container[i][j] << " ";
+        std::cout << std::setw(10) << std::left << container[i][j] << " ";
       }
-      ss << std::endl;
+      std::cout << std::endl;
     }
 
-    std::string output = ss.str();
-    ss.str("");
-    return output;
+    return "";
   }
 };
 

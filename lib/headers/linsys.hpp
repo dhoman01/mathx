@@ -197,22 +197,28 @@ namespace mathx {
     *                    2 = scaled partial pivoting
     */
     template<typename T>
-    void lu(matrix<T>& A, array<T>& b, int pstrategy = 0){
-      for(int k = 0; k < A.rows() - 1; k++){
+    matrix<T> lu(matrix<T>& A, array<T>& b, int pstrategy = 0){
+      matrix<T> LU(A.rows(), A.cols());
+      LU = A;
+      int m = A.rows();
+      int n = A.cols();
+      for(int k = 0; k < m - 1; k++){
         if(pstrategy > 0){
-          int kpiv = pstrategy == 1 ? A.find_pivot(k) : A.find_scaled_pivot(k);
-          A.swap(k, kpiv);
+          int kpiv = pstrategy == 1 ? LU.find_pivot(k) : LU.find_scaled_pivot(k);
+          LU.swap(k, kpiv);
           std::swap(b[k], b[kpiv]);
         }
 
-        for(int i = k + 1; i < A.rows(); i++){
-          T l = A[i][k] / A[k][k];
-          for(int j = k + 1; j < A.cols(); j++){
-            A[i][j] = A[i][j] - l * A[k][j];
+        for(int i = k + 1; i < m; i++){
+          T l = LU[i][k] / LU[k][k];
+          for(int j = k + 1; j < n; j++){
+            LU[i][j] = LU[i][j] - l * LU[k][j];
           }
-          A[i][k] = l;
+          LU[i][k] = l;
         }
       }
+
+      return LU;
     }
 
     /**
@@ -522,7 +528,7 @@ namespace mathx {
     }
 
     /**
-    * @brief Solve the linear system Ax=b
+    * @brief Solve the linear system Ax=b using Gaussian Elimination
     * @details
     * @param A - input matrix
     * @param b - solution vector
@@ -533,18 +539,8 @@ namespace mathx {
     */
     template<typename T>
     array<T> solve(matrix<T> A, array<T> b, int strategy){
-      switch(strategy){
-        case 0:
-        case 1:
-        case 2:
-        {
-          gaussian_elimination(A, b, strategy);
-          return back_substitution(A, b);
-        }
-        default: {
-          return array<T>();
-        }
-      }
+      gaussian_elimination(A, b, strategy);
+      return back_substitution(A, b);
     }
 
     /**
@@ -559,21 +555,10 @@ namespace mathx {
     *                   2 = LU scaled pivoting + FS & BS
     */
     template<typename T>
-    array<T> solve(matrix<T> A, array<T> b, matrix<T>& LU, int strategy){
-      switch(strategy){
-        case 0:
-        case 1:
-        case 2: {
-          lu(A, b, strategy);
-          LU = A;
-          array<T> y = forward_substitution(LU, b, true);
-          return back_substitution(LU, y);
-        }
-        default: {
-          return array<T>();
-        }
-      }
-
+    array<T> solve(matrix<T>& A, array<T> b, matrix<T>& LU, int strategy){
+      LU = lu(A, b, strategy);
+      array<T> y = forward_substitution(LU, b, true);
+      return back_substitution(LU, y);
     }
 
     /**

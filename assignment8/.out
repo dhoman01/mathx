@@ -1,0 +1,201 @@
+----------------------------------------------
+                Problem One                   
+----------------------------------------------
+
+n = 1000
+error 2.72865e-09
+
+***     Time spent executing: 0 seconds 363 milliseconds and 696 microseconds     ***
+
+n = 1100
+error 2.6748e-09
+
+***     Time spent executing: 0 seconds 397 milliseconds and 8 microseconds     ***
+
+n = 1200
+error 2.81462e-09
+
+***     Time spent executing: 0 seconds 545 milliseconds and 457 microseconds     ***
+
+n = 1300
+error 2.76886e-09
+
+***     Time spent executing: 0 seconds 615 milliseconds and 27 microseconds     ***
+
+n = 1400
+error 2.61467e-09
+
+***     Time spent executing: 0 seconds 798 milliseconds and 835 microseconds     ***
+
+n = 1500
+error 3.54869e-09
+
+***     Time spent executing: 0 seconds 769 milliseconds and 666 microseconds     ***
+
+n = 1600
+error 2.90522e-09
+
+***     Time spent executing: 1 seconds 99 milliseconds and 134 microseconds     ***
+
+n = 1700
+error 2.28355e-09
+
+***     Time spent executing: 0 seconds 925 milliseconds and 189 microseconds     ***
+
+n = 1800
+error 3.0159e-09
+
+***     Time spent executing: 1 seconds 60 milliseconds and 277 microseconds     ***
+
+n = 1900
+error 3.63186e-09
+
+***     Time spent executing: 1 seconds 598 milliseconds and 963 microseconds     ***
+
+n = 2000
+error 3.09958e-09
+
+***     Time spent executing: 1 seconds 451 milliseconds and 409 microseconds     ***
+----------------------------------------------
+                Problem Two                   
+----------------------------------------------
+
+n = 1000
+error 3.44391e-09
+
+***     Time spent executing: 0 seconds 88 milliseconds and 682 microseconds     ***
+
+n = 1100
+error 3.37927e-10
+
+***     Time spent executing: 0 seconds 116 milliseconds and 98 microseconds     ***
+
+n = 1200
+error 2.87858e-10
+
+***     Time spent executing: 0 seconds 148 milliseconds and 698 microseconds     ***
+
+n = 1300
+error 6.02314e-13
+
+***     Time spent executing: 0 seconds 12 milliseconds and 480 microseconds     ***
+
+n = 1400
+error 3.38429e-10
+
+***     Time spent executing: 0 seconds 202 milliseconds and 295 microseconds     ***
+
+n = 1500
+error 1.79188e-08
+
+***     Time spent executing: 0 seconds 215 milliseconds and 547 microseconds     ***
+
+n = 1600
+error 1.28823e-10
+
+***     Time spent executing: 0 seconds 282 milliseconds and 869 microseconds     ***
+
+n = 1700
+error 3.1737e-10
+
+***     Time spent executing: 0 seconds 319 milliseconds and 188 microseconds     ***
+
+n = 1800
+error 5.91561e-10
+
+***     Time spent executing: 0 seconds 334 milliseconds and 141 microseconds     ***
+
+n = 1900
+error 2.68321e-10
+
+***     Time spent executing: 0 seconds 398 milliseconds and 698 microseconds     ***
+
+n = 2000
+error 5.94606e-10
+
+***     Time spent executing: 0 seconds 442 milliseconds and 9 microseconds     ***
+----------------------------------------------
+                Problem Three                 
+----------------------------------------------
+Jacobi (n, iter)
+1000, 54
+Gauss-Seidel (n, iter)
+1000, 13
+Jacobi (n, iter)
+2000, 74
+Gauss-Seidel (n, iter)
+2000, 16
+Jacobi (n, iter)
+3000, 58
+Gauss-Seidel (n, iter)
+3000, 15
+Jacobi (n, iter)
+4000, 73
+Gauss-Seidel (n, iter)
+4000, 15
+Jacobi (n, iter)
+5000, 76
+Gauss-Seidel (n, iter)
+5000, 17
+Jacobi (n, iter)
+6000, 84
+Gauss-Seidel (n, iter)
+6000, 15
+Jacobi (n, iter)
+7000, 81
+Gauss-Seidel (n, iter)
+7000, 16
+Jacobi (n, iter)
+8000, 69
+Gauss-Seidel (n, iter)
+8000, 16
+Jacobi (n, iter)
+9000, 69
+Gauss-Seidel (n, iter)
+9000, 17
+Jacobi (n, iter)
+10000, 107
+Gauss-Seidel (n, iter)
+10000, 16
+----------------------------------------------
+                Problem Four                  
+----------------------------------------------
+
+n,LU,Jacobi,Gauss-Seidel
+1000, 2583, 326, 95
+1500, 8727, 898, 232
+2000, 20669, 1334, 412
+2500, 40310, 2674, 644
+3000, 69602, 3719, 926
+3500, 110467, 6039, 1261
+4000, 164731, 8467, 117
+4500, 234552, 9101, 2232
+5000, 321501, 16492, 183
+----------------------------------------------
+                Problem Five                   
+----------------------------------------------
+
+n = 10
+error 7.71389e-09
+
+***     Time spent executing: 0 seconds 0 milliseconds and 23 microseconds     ***
+
+n = 20
+error 2.2044e-09
+
+***     Time spent executing: 0 seconds 0 milliseconds and 131 microseconds     ***
+
+n = 40
+error 6.1731e-09
+
+***     Time spent executing: 0 seconds 0 milliseconds and 850 microseconds     ***
+
+n = 80
+error 3.94405e-08
+
+***     Time spent executing: 0 seconds 6 milliseconds and 299 microseconds     ***
+
+n = 160
+error 1.21691e-07
+
+***     Time spent executing: 0 seconds 49 milliseconds and 521 microseconds     ***
