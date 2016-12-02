@@ -460,6 +460,121 @@ namespace mathx {
     }
 
     /**
+    * @brief Use the power method to find the largest eigenvalue and cooresponding eigenvector of a matrix
+    * @details
+    * @param A - input matrix
+    * @param v0 - initial guess
+    * @param tol - error tolerance
+    * @param maxiter - max iterations to perform
+    * @param debug - Print debug info (default=false)
+    */
+    template<typename T>
+    std::pair<T,array<T>> power_method(matrix<T>& A, array<T>& v0, double tol, int maxiter, bool debug=false){
+      // Initialize variables
+      array<T> vkm1 = v0;
+      array<T> vk;
+      T lambda = 0;
+      T lambdakm1 = 10;
+      int iter = 0;
+      double error = 10 * tol;
+
+      if(debug) std::cout << "Iterations, Error, n" << std::endl;
+
+      // Moving the matmul outside
+      // the loop improves performance
+      // and overcomes an issue of
+      // overflow when n and iter are large
+      array<T> v = product(A, vkm1);
+      while(iter++ < maxiter && error > tol){
+        // Normalize v and assing to vk;
+        vk = vectors::normalize(v);
+
+        // Calculate lambda_k
+        lambda = vectors::dotProduct(vk, v);
+
+        // Calculate error
+        error = std::abs(lambda - lambdakm1);
+
+        if(debug) std::cout << iter << "," << error << "," << A.cols() << std::endl;
+
+        // Reinitialize values for
+        // the next iteration
+        v = product(A, vk);
+        lambdakm1 = lambda;
+        vkm1 = v;
+      }
+
+      return std::make_pair(lambda, vk);
+    }
+
+    /**
+    * @brief Shift a matrix by α
+    * @param A - matrix to shift
+    * @param alpha - α
+    */
+    template<typename T>
+    matrix<T> shift(matrix<T>& A, T alpha){
+      matrix<T> shifted = A;
+      for(int i = 0; i < shifted.rows(); i++)
+        shifted[i][i] -= alpha;
+
+      return shifted;
+    }
+
+    /**
+    * @brief Use the inverse power method to find largest eigenvalue and cooresponding eigenvector
+    * @details
+    * @param A - input matrix
+    * @param v0 - intital guess
+    * @param alpha - α (shift value)
+    * @param tol - error tolerance
+    * @param maxiter - max iterations to perform
+    * @param debug - Print debug info (default=false)
+    */
+    template<typename T>
+    std::pair<T, array<T>> inverse_power_method(matrix<T>& A, array<T>& v0, double alpha, double tol, int maxiter, bool debug=false){
+      // Initialize variables
+      array<T> vkm1 = v0;
+      array<T> vk;
+      T lambda = 0;
+      T lambdakm1 = 10;
+      double error = 10 * tol;
+      int iter = 0;
+
+      // Shift A by α
+      A = shift(A, alpha);
+
+      // Factor A* into L and U
+      matrix<T> LU = lu(A, vkm1, 0);
+
+      if(debug) std::cout << "Iterations, Error, n" << std::endl;
+
+      while(iter++ < maxiter && error > tol){
+        // Solve Shifted * v = vkm1
+        array<T> b = forward_substitution(LU, vkm1, true);
+        array<T> v = back_substitution(LU, b);
+
+        // Normalize v and assing to vk;
+        vk = vectors::normalize(v);
+
+        // Calculate lambda_k
+        lambda = vectors::dotProduct(vk, product(A, vk));
+
+        // Calculate error
+        error = std::abs(lambda - lambdakm1);
+
+        if(debug) std::cout << iter << "," << error << "," << A.cols() << std::endl;
+
+        // Reinitialize values for
+        // the next iteration
+        lambdakm1 = lambda;
+        vkm1 = v;
+      }
+
+      return std::make_pair(lambda, vk);
+    }
+
+    /**
     * @brief Find a lower bound of the condition number of a square matrix
     * @details
     * @param A - input matrix

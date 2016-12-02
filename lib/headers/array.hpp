@@ -169,6 +169,27 @@ public:
   }
 
   /**
+  * Overload of mult operator
+  * @param rhs - another array to dot
+  */
+  // T operator*(const array<T>& rhs){
+  //   return vectors::dotProduct(*this, rhs);
+  // }
+
+  /**
+  * Overload of mult operator
+  * @param rhs - value to mult this array by
+  */
+  array<T> operator*(const T& rhs){
+    array<T> n = *this;
+    for(int i = 0; i < mysize; i++){
+      n[i] *= rhs;
+    }
+
+    return n;
+  }
+
+  /**
   * Prints a string representation of array
   */
   std::string to_string(){

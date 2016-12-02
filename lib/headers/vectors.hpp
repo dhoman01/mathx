@@ -45,6 +45,17 @@ T euclideanLength(T* v, int size){
   return std::sqrt(dot_product(v,v,size));
 }
 
+template<typename T>
+array<T> normalize(array<T> v){
+  array<T> normal = v;
+  T norm = euclideanLength(v);
+  for(int i = 0; i < normal.size(); i++){
+    normal[i] /= norm;
+  }
+
+  return normal;
+}
+
 template <typename T>
 array<T> crossProduct(array<T> v, array<T> w) {
   if (v.size() != w.size() && v.size() != 3) throw not_equal_exception;
