@@ -48,7 +48,7 @@ public:
     if(rand){
       for(int i = 0; i < row; i++)
         for(int j = 0; j < col; j++)
-          container[i][j] = (i == j ? 10 * i + goodrand::getRand(1.0, 2.0) : goodrand::getRand(0.0, 1.0));
+          container[i][j] = (i == j ? 10 * i + goodrand::get_rand(1.0, 2.0) : goodrand::get_rand(0.0, 1.0));
 
     }
   };
@@ -143,7 +143,7 @@ public:
   */
   T* operator[](std::size_t i) const { return container[i]; };
 
-  bool hasPivoted = false;
+  bool has_pivoted = false;
 
   /**
   * Get value at location r,c
@@ -191,7 +191,7 @@ public:
       if(qtemp > qmax){
         kpiv = i;
         qmax = qtemp;
-        hasPivoted = true;
+        has_pivoted = true;
       }
     }
 
@@ -221,7 +221,7 @@ public:
       if(qtmp > qmax){
         kpiv = i;
         qmax = qtmp;
-        hasPivoted = true;
+        has_pivoted = true;
       }
     }
 
@@ -233,7 +233,7 @@ public:
   * @param r1 - row one position
   * @param r2 - row two position
   */
-  void swap(int r1, int r2){
+  void swap_row(int r1, int r2){
     std::swap(container[r1], container[r2]);
   }
 
@@ -284,14 +284,17 @@ public:
   * Returns a string representation of the matrix
   */
   std::string to_string(){
+    std::stringstream ss;
     for(int i = 0; i < row; i++){
       for(int j = 0; j < col; j++){
-        std::cout << std::setw(10) << std::left << container[i][j] << " ";
+        ss << std::setw(10) << std::left << container[i][j] << " ";
       }
-      std::cout << std::endl;
+      ss << std::endl;
     }
 
-    return "";
+    std::string output = ss.str();
+
+    return output;
   }
 };
 

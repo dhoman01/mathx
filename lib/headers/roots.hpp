@@ -6,7 +6,6 @@
 
 namespace mathx {
   namespace roots {
-    // clang-format off
     /**
     * @brief Finds roots of a polynomial in range [a,b] using bisection.
     * @details The bisection method requires a continuous function on the interval
@@ -22,7 +21,6 @@ namespace mathx {
     * @param tol - the tolerance between a and b. Must be smaller than \f$b_{initial}-a_{initial}\f$
     * @param max - maximum iterations the algorithm is allowed to execute. Used to prevent infinite loops
     */
-    // clang-format on
     double bisect(function f, double a, double b, double fa, double fb, double tol, uint max){
       // Ensure parameters lead to valid problem
       if(a == b || fa * fb > 0 || tol <= 0) throw std::runtime_error("check your parameters");
@@ -61,7 +59,6 @@ namespace mathx {
       return c;
     }
 
-    // clang-format off
     /**
     * @brief Find a polynomial's roots using fixed point iteration.
     * @details Fixed point iteration requires a continuous function
@@ -75,7 +72,6 @@ namespace mathx {
     * @param tol - the tolerance between a and b. Must be greater than 0
     * @param max - maximum iterations the algorithm is allowed to execute. Used to prevent infinite loops
     */
-    // clang-format on
     double fixed_point_iter(function g, function f, double x0, double tol, uint max){
       // Ensure tolerance is valid
       if(tol < 0) throw std::runtime_error("check your parameters");
@@ -96,7 +92,6 @@ namespace mathx {
       return x0;
     }
 
-    // clang-format off
     /**
     * @brief Find a polynomial's roots using Netwon's method.
     * @details Newton's method is an iterative method used to
@@ -117,7 +112,7 @@ namespace mathx {
       if(tol < 0 || df(x0) == 0) throw std::runtime_error("check your parameters");
 
       // Initialize xk to be used in error calculation
-      double xk = x0 -1;
+      double xk = x0 - 1;
       // Work loop
       for(uint k = 0; k < max && std::abs(x0 - xk) > tol; k++){
         xk = x0;                // Store x_k
@@ -131,7 +126,7 @@ namespace mathx {
         // If the derivative equals 0 retrun NaN
         if(dfk == 0) return std::nan("0");
 
-        x0 = xk - fk/dfk; // Store x_{k+1}
+        x0 = xk - fk / dfk; // Store x_{k+1}
       }
 
       // Either the tolerance or max
@@ -141,7 +136,6 @@ namespace mathx {
       return x0;
     }
 
-    // clang-format off
     /**
     * @brief Find a polynomial's roots using the Secant method (variant of Netwon's method)
     * @details A variation of Netwon's Method, the Secant method eliviates the need for
@@ -155,7 +149,6 @@ namespace mathx {
     * @param tol - the tolerance between a and b. Must be greater than 0
     * @param max - maximum iterations the algorithm is allowed to execute. Used to prevent infinite loops
     */
-    // clang-format on
     double secant_method(function f, double x0, double x1, double tol, uint max){
       // Initialize f_k and f_{k+1}
       double fk = f(x0);
@@ -184,7 +177,6 @@ namespace mathx {
       return x0;
     }
 
-    // clang-format off
     /**
     * @brief A globalization of Newton's method, using bisection to get a better guess.
     * @details Newton's method requires an initial guess sufficiently close to the root.

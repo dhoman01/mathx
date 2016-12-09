@@ -4,13 +4,13 @@
 #include <random>
 
 namespace goodrand {
+static std::random_device rd;
+static std::mt19937 mt(rd());
 
 // Get a random integer with
 // uniform distribution in the
 // range l to u
-int getRand(int l, int u) {
-  static std::random_device rd;
-  static std::mt19937 mt(rd());
+int get_rand(int l, int u) {
   std::uniform_int_distribution<> d(l, u);
   return d(mt);
 }
@@ -18,9 +18,7 @@ int getRand(int l, int u) {
 // Get a random double with
 // uniform distribution in the
 // range l to u
-double getRand(double l, double u) {
-  static std::random_device rd;
-  static std::mt19937 mt(rd());
+double get_rand(double l, double u) {
   std::uniform_real_distribution<> d(l, u);
   return d(mt);
 }

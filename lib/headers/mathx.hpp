@@ -6,7 +6,7 @@
 #include "vectors.hpp"
 #include "array.hpp"
 #include "matrix.hpp"
-#include "linsys.hpp"
+#include "linsolv.hpp"
 
 namespace mathx {
 

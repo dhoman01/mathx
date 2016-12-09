@@ -14,7 +14,7 @@ namespace mathx {
     * @param x - input vector
     */
     template<typename T>
-    array<T> product(matrix<T>& A, array<T>& x, bool a_trans = false){
+    array<T> matmul(matrix<T>& A, array<T>& x, bool a_trans = false){
       if(a_trans){
         array<T> b(A.cols(), 0);
         for(int j = 0; j < A.cols(); j++){
@@ -41,7 +41,7 @@ namespace mathx {
     * @param x - input vector
     */
     template<typename T>
-    array<T> product(array<double> al, array<double> am, array<double>au, array<T>& x){
+    array<T> matul(array<double> al, array<double> am, array<double>au, array<T>& x){
       array<T> b(x.size(), 0);
       b[0] = am[0] * x[0] + au[0] * x[1];
       for(int i = 1; i < x.size() - 1; i++){
@@ -60,7 +60,7 @@ namespace mathx {
     * @param x - input vector
     */
     template<typename T>
-    matrix<T> product(matrix<T>& A, matrix<T>& B){
+    matrix<T> matmul(matrix<T>& A, matrix<T>& B){
       matrix<T> C(A.rows(), B.cols());
       for(int i = 0; i < A.rows(); i++){
         for(int j = 0; j < B.cols(); j++){
@@ -171,7 +171,7 @@ namespace mathx {
       for(int k = 0; k < A.rows() - 1; k++){
         if(pstrategy > 0){
           int kpiv = pstrategy == 1 ? A.find_pivot(k) : A.find_scaled_pivot(k);
-          A.swap(k, kpiv);
+          A.swap_row(k, kpiv);
           std::swap(b[k], b[kpiv]);
         }
 
@@ -205,7 +205,7 @@ namespace mathx {
       for(int k = 0; k < m - 1; k++){
         if(pstrategy > 0){
           int kpiv = pstrategy == 1 ? LU.find_pivot(k) : LU.find_scaled_pivot(k);
-          LU.swap(k, kpiv);
+          LU.swap_row(k, kpiv);
           std::swap(b[k], b[kpiv]);
         }
 
@@ -413,7 +413,7 @@ namespace mathx {
 
       // Initialize r^(k+1) and r^(k)
       array<T> rkp1;
-      array<T> rk = b - product(A,x0);
+      array<T> rk = b - matmul(A,x0);
 
       // Initialize p^(k+1) and p^(k)
       array<T> pkp1;
@@ -421,17 +421,17 @@ namespace mathx {
 
       // Initialize tolerance and delta
       tol = std::pow(tol, 2);
-      double deltak = vectors::dotProduct(rk, rk);
+      double deltak = vectors::dot_product(rk, rk);
       double deltakp1;
 
       // Initialize b delta
-      double bdelta = vectors::dotProduct(b, b);
+      double bdelta = vectors::dot_product(b, b);
 
       int iter = 0;
       int n = A.cols();
       while(deltak > tol * bdelta && iter < maxiter){
-        array<T> sk = product(A, pk);
-        double alphak = deltak / vectors::dotProduct(pk,sk);
+        array<T> sk = matmul(A, pk);
+        double alphak = deltak / vectors::dot_product(pk,sk);
         xkp1 = xk;
         rkp1 = rk;
         // Iterate to find x^(k+1)[i]
@@ -442,7 +442,7 @@ namespace mathx {
         }
 
         // Find delta k+1 and p^(k+1)
-        deltakp1 = vectors::dotProduct(rkp1, rkp1);
+        deltakp1 = vectors::dot_product(rkp1, rkp1);
         pkp1 = rkp1;
         for(int i = 0; i < n; i++)
           pkp1[i] += (deltakp1 / deltak) * pk[i];
@@ -484,13 +484,13 @@ namespace mathx {
       // the loop improves performance
       // and overcomes an issue of
       // overflow when n and iter are large
-      array<T> v = product(A, vkm1);
+      array<T> v = matmul(A, vkm1);
       while(iter++ < maxiter && error > tol){
         // Normalize v and assing to vk;
         vk = vectors::normalize(v);
 
         // Calculate lambda_k
-        lambda = vectors::dotProduct(vk, v);
+        lambda = vectors::dot_product(vk, v);
 
         // Calculate error
         error = std::abs(lambda - lambdakm1);
@@ -499,7 +499,7 @@ namespace mathx {
 
         // Reinitialize values for
         // the next iteration
-        v = product(A, vk);
+        v = matmul(A, vk);
         lambdakm1 = lambda;
         vkm1 = v;
       }
@@ -558,7 +558,7 @@ namespace mathx {
         vk = vectors::normalize(v);
 
         // Calculate lambda_k
-        lambda = vectors::dotProduct(vk, product(A, vk));
+        lambda = vectors::dot_product(vk, matmul(A, vk));
 
         // Calculate error
         error = std::abs(lambda - lambdakm1);
@@ -688,7 +688,7 @@ namespace mathx {
       matrix<T> B = mult_transpose(A);
 
       // Compute (A^T)b
-      array<T> y = product(A, b, true);
+      array<T> y = matmul(A, b, true);
 
       // Use cholesky factorization to solve
       return solve(B, y);
@@ -710,10 +710,10 @@ namespace mathx {
       matrix<T> qT = transpose(Q);
 
       // Compute R from Q transpose x A
-      matrix<T> R = product(qT, A);
+      matrix<T> R = matmul(qT, A);
 
       // Compute C from Q transpose x b
-      array<T> c = product(qT, b);
+      array<T> c = matul(qT, b);
 
       // Use back substitution to solve Rx = c
       return back_substitution(R,c);

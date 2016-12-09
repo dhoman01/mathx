@@ -7,16 +7,10 @@
 
 namespace mathx {
 namespace vectors {
-class not_equal_exception : public std::exception {
-  virtual const char *what() const throw() {
-    return "Your vectors need to be the same dimensions to perform this "
-           "operation!";
-  }
-} not_equal_exception;
 
 template <typename T>
-T dotProduct(array<T> v, array<T> w) {
-  if (v.size() != w.size()) throw not_equal_exception;
+T dot_product(array<T> v, array<T> w) {
+  if (v.size() != w.size()) throw std::runtime_error("Vector dot products are only defined for vectors of the same length");
   T product = 0;
   for (int i = 0; i < v.size(); i++) {
     product += v[i] * w[i];
@@ -36,19 +30,19 @@ T dot_product(T* v, T* w, int size){
 }
 
 template <typename T>
-T euclideanLength(array<T> v) {
-  return std::sqrt(dotProduct(v, v));
+T norm(array<T> v) {
+  return std::sqrt(dot_product(v, v));
 }
 
 template <typename T>
-T euclideanLength(T* v, int size){
+T norm(T* v, int size){
   return std::sqrt(dot_product(v,v,size));
 }
 
 template<typename T>
 array<T> normalize(array<T> v){
   array<T> normal = v;
-  T norm = euclideanLength(v);
+  T norm = norm(v);
   for(int i = 0; i < normal.size(); i++){
     normal[i] /= norm;
   }
@@ -57,15 +51,15 @@ array<T> normalize(array<T> v){
 }
 
 template <typename T>
-array<T> crossProduct(array<T> v, array<T> w) {
-  if (v.size() != w.size() && v.size() != 3) throw not_equal_exception;
+array<T> cross_product(array<T> v, array<T> w) {
+  if (v.size() != w.size() && v.size() != 3) throw std::runtime_error("Vector cross product is only defined for vectors of length 3");
   array<T> vxw = {v[1] * w[2] - v[2] * w[1], v[2] * w[0] - v[0] * w[2],
                         v[0] * w[1] - v[1] * w[0]};
   return vxw;
 }
 
 template <typename T>
-T oneNorm(array<T> v) {
+T one_norm(array<T> v) {
   T norm = 0;
 
   for (T e : v)
@@ -75,7 +69,7 @@ T oneNorm(array<T> v) {
 }
 
 template <typename T>
-T maxNorm(array<T> v) {
+T max_norm(array<T> v) {
   T max = 0;
   for (int i = 0; i < v.size(); i++) {
     T x = std::abs(v[i]);

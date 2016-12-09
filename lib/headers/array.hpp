@@ -21,12 +21,12 @@ private:
   /**
   * Current size of the array
   */
-  int mysize;
+  int my_size;
 
   /**
   * Current capacity of the array
   */
-  int mycapacity;
+  int my_capacity;
 
   /**
   * Function to increase capacity
@@ -42,20 +42,20 @@ public:
   /**
   * Default constructor initializing everything to 0
   */
-  array<T>() : container(new T[0]), mysize(0), mycapacity(0){};
+  array<T>() : container(new T[0]), my_size(0), my_capacity(0){};
 
   /**
   * Constructor initializing container to capacity c
   * @param c - an int value to set the initial capacity
   */
-  array<T>(int c) : container(new T[c]), mysize(0), mycapacity(c){};
+  array<T>(int c) : container(new T[c]), my_size(0), my_capacity(c){};
 
   /**
   * Constructor initializing container to capacity c with value v
   * @param c - an int value to set the initial capacity
   * @param v - a value to set all elements to
   */
-  array<T>(int c, T v): container(new T[c]), mysize(c), mycapacity(c){
+  array<T>(int c, T v): container(new T[c]), my_size(c), my_capacity(c){
     for(int i = 0; i < c; i++){
       container[i] = v;
     }
@@ -68,15 +68,15 @@ public:
   */
   array<T>(std::initializer_list<T> c){
     container = new T[c.size()];
-    mycapacity = mysize = c.size();
+    my_capacity = my_size = c.size();
     std::copy(c.begin(), c.end(), container);
   }
 
   /**
   * Copy constructor
   */
-  array<T>(const array<T> &a):container(new T[a.mycapacity]),mysize(a.mysize),mycapacity(a.mycapacity){
-    for(int i = 0; i < mysize; i++)
+  array<T>(const array<T> &a):container(new T[a.my_capacity]), my_size(a.my_size), my_capacity(a.my_capacity){
+    for(int i = 0; i < my_size; i++)
       container[i] = a[i];
   };
 
@@ -86,10 +86,10 @@ public:
   array<T>& operator=(const array<T>& rhs){
     if(this == &rhs)
       return *this;
-    mysize = rhs.mysize;
-    mycapacity = rhs.mycapacity;
-    container = new T[mycapacity];
-    for(int i = 0; i < mysize; i++)
+    my_size = rhs.my_size;
+    my_capacity = rhs.my_capacity;
+    container = new T[my_capacity];
+    for(int i = 0; i < my_size; i++)
       container[i] = rhs[i];
     return *this;
   }
@@ -110,7 +110,7 @@ public:
   * Gets an element from the array
   * @param i - index of element. i < mysize
   */
-  T get(int i){ if(i < mysize) return container[i]; else throw std::runtime_error("index out of bounds"); };
+  T get(int i){ if(i < my_size) return container[i]; else throw std::runtime_error("index out of bounds"); };
 
   /**
   * Method to pop element from end of array
@@ -125,12 +125,12 @@ public:
   /**
   * Method to get the size of the array
   */
-  int size() { return mysize; };
+  int size() { return my_size; };
 
   /**
   * Method to get the capacity of the array
   */
-  int capacity() { return mycapacity; };
+  int capacity() { return my_capacity; };
 
   /**
   * Overload of array index operators. Same as get(i)
@@ -145,39 +145,44 @@ public:
   T& operator[](std::size_t i) const { return container[i]; };
 
   /**
-  * Overload of plus operator
+  * Overload of plus operator to add two vectors
   * @param rhs - another array to add to this one
   */
   array<T> operator+(const array<T> rhs){
-    array<T> n(mysize);
-    for(int i = 0; i < mysize; i++)
+    array<T> n(my_size);
+    for(int i = 0; i < my_size; i++)
       n.push(container[i] + rhs.container[i]);
 
     return n;
   }
 
   /**
-  * Overload of minus operator
+  * Overload of minus operator to subtract two vectors
   * @param rhs - another array to subtract from this one
   */
   array<T> operator-(const array<T> rhs){
-    array<T> n(mysize);
-    for(int i = 0; i < mysize; i++)
+    array<T> n(my_size);
+    for(int i = 0; i < my_size; i++)
       n.push(container[i] - rhs.container[i]);
 
     return n;
   }
 
   /**
-  * Overload of mult operator
+  * Overload of mult operator for dot product
   * @param rhs - another array to dot
   */
-  // T operator*(const array<T>& rhs){
-  //   return vectors::dotProduct(*this, rhs);
-  // }
+  T operator*(const array<T>& rhs){
+    T product = 0;
+    for (int i = 0; i < my_size; i++) {
+      product += container[i] * rhs[i];
+    }
+
+    return product;
+  }
 
   /**
-  * Overload of mult operator
+  * Overload of mult operator for scalar
   * @param rhs - value to mult this array by
   */
   array<T> operator*(const T& rhs){
@@ -193,12 +198,16 @@ public:
   * Prints a string representation of array
   */
   std::string to_string(){
-    std::cout << "[ ";
+    std::stringstream ss;
+    ss << "[ ";
     for(int i = 0; i < mysize; i++){
-      std::cout << container[i] << " ";
+      ss << container[i] << " ";
     }
-    std::cout << " ]^T";
-    return "";
+    ss << " ]^T";
+
+    std::string output = ss.str();
+
+    return output;
   }
 
   /**
@@ -254,14 +263,14 @@ template<typename T>
 void array<T>::grow(){
   // Set the new capacity to double the current. 0 -> 2, 2 -> 4, ...
   // Doubling the array every grow leads to amortized O(n) grow operations
-  array<T>::mycapacity = array<T>::mycapacity == 0 ? 2 : 2 * array<T>::mycapacity;
+  array<T>::my_capacity = array<T>::my_capacity == 0 ? 2 : 2 * array<T>::my_capacity;
 
   // Initialize a temporary primative
   // array to shuffle old array for resize
-  T* tmp = new T[array<T>::mycapacity];
+  T* tmp = new T[array<T>::my_capacity];
 
   // Copy the old array to the temporary array
-  std::copy(array<T>::container, array<T>::container + array<T>::mysize, tmp);
+  std::copy(array<T>::container, array<T>::container + array<T>::my_size, tmp);
 
   // Delete old array
   delete[] array<T>::container;
@@ -278,13 +287,13 @@ void array<T>::grow(){
 template<typename T>
 void array<T>::shrink(int capacity){
   // Set capacity to new capacity
-  array<T>::mycapacity = capacity;
+  array<T>::my_capacity = capacity;
 
   // Initialize temporary array
-  T* tmp = new T[array<T>::mycapacity];
+  T* tmp = new T[array<T>::my_capacity];
 
   // Copy the old array to smaller temp array
-  std::copy(array<T>::container, array<T>::container + array<T>::mysize, tmp);
+  std::copy(array<T>::container, array<T>::container + array<T>::my_size, tmp);
 
   // Destroy old array
   delete[] array<T>::container;
@@ -303,15 +312,15 @@ template<typename T>
 void array<T>::push(T el){
   // If there is not room
   // in the array grow it
-  if(array<T>::mysize >= array<T>::mycapacity){
+  if(array<T>::my_size >= array<T>::my_capacity){
     array<T>::grow();
   }
 
   // Add element to end of array
-  array<T>::container[array<T>::mysize] = el;
+  array<T>::container[array<T>::my_size] = el;
 
   // Increment size
-  array<T>::mysize++;
+  array<T>::my_size++;
 };
 
 /**
@@ -320,10 +329,10 @@ void array<T>::push(T el){
 template<typename T>
 T array<T>::pop(){
   // Shrink array
-  array<T>::shrink(array<T>::mysize - 1 == 0 ? 0 : array<T>::mysize);
+  array<T>::shrink(array<T>::my_size - 1 == 0 ? 0 : array<T>::my_size);
 
   // Return the last element decrementing size
-  return array<T>::container[--mysize];
+  return array<T>::container[--my_size];
 };
 
 /**
@@ -332,10 +341,10 @@ T array<T>::pop(){
 template<typename T>
 void array<T>::clear(){
   // Set size to 0
-  array<T>::mysize = 0;
+  array<T>::my_size = 0;
 
   // Set capacity to 0
-  array<T>::mycapacity = 0;
+  array<T>::my_capacity = 0;
 
   // Destroy elements
   delete[] array<T>::container;
