@@ -11,11 +11,11 @@ namespace mathx {
     * @details The bisection method requires a continuous function on the interval
     * of [a,b], with \f$f(a)\cdot f(b)<0\f$. Bisection will find the root by taking
     * the midpoint, c, between a and b and evaluating if \f$f(a)\cdot f(c)<0\f$ OR
-    * \f$f(b)\cdot f(c)<0$. With c becoming the new b or a, respectivally.
+    * \f$f(b)\cdot f(c)<0\f$. With c becoming the new b or a, respectivally.
     * Linear error convergence.
     * @param f A continuous function. Data type double(double). See mathx::typedef function.
     * @param a - a point at which \f$f(a) < 0\f$
-    * @param b - a point at which \f$f(b) > 0\f$ and $a<b$
+    * @param b - a point at which \f$f(b) > 0\f$ and \f$a<b\f$
     * @param fa - \f$f(a)\f$. Used for convience to reduce the number of evaluations
     * @param fb - \f$f(b)\f$. Used for convience to reduce the number of evaluations
     * @param tol - the tolerance between a and b. Must be smaller than \f$b_{initial}-a_{initial}\f$
@@ -95,7 +95,7 @@ namespace mathx {
     /**
     * @brief Find a polynomial's roots using Netwon's method.
     * @details Newton's method is an iterative method used to
-    * find roots. Newton's method requires that \f$f\in C^2[a,b].
+    * find roots. Newton's method requires that \f$f\in C^2[a,b]\f$.
     * Also the \f$k+1\f$ iterate is calculated by:
     * \f[x_k-\frac{f(x_k)}{f'(x_k)}, k=0,1,2,\cdots\f]
     * @param f - a function in \f$C^2[a,b]\f$. Data type double(double). See mathx::typedef function.
@@ -185,7 +185,7 @@ namespace mathx {
     * @param f - a function in \f$C^2[a,b]\f$. Data type double(double). See mathx::typedef function.
     * @param df - the derivative of f. Data type double(double). See mathx::typedef function.
     * @param a - a point at which \f$f(a) < 0\f$
-    * @param b - a point at which \f$f(b) > 0\f$ and $a<b$
+    * @param b - a point at which \f$f(b) > 0\f$ and \f$a<b\f$
     * @param tol - the tolerance between a and b. Must be greater than 0
     * @param max - maximum iterations the algorithm is allowed to execute. Used to prevent infinite loops
     */

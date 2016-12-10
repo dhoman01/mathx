@@ -508,9 +508,9 @@ namespace mathx {
     }
 
     /**
-    * @brief Shift a matrix by α
+    * @brief Shift a matrix by alpha
     * @param A - matrix to shift
-    * @param alpha - α
+    * @param alpha - alpha
     */
     template<typename T>
     matrix<T> shift(matrix<T>& A, T alpha){
@@ -526,7 +526,7 @@ namespace mathx {
     * @details
     * @param A - input matrix
     * @param v0 - intital guess
-    * @param alpha - α (shift value)
+    * @param alpha - shift value
     * @param tol - error tolerance
     * @param maxiter - max iterations to perform
     * @param debug - Print debug info (default=false)
@@ -541,7 +541,7 @@ namespace mathx {
       double error = 10 * tol;
       int iter = 0;
 
-      // Shift A by α
+      // Shift A by alpha
       A = shift(A, alpha);
 
       // Factor A* into L and U

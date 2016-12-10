@@ -1,0 +1,69 @@
+
+\section{\bf Examples of How the Code Works}
+
+If you include examples in an appendix, you should include the code that is
+used to access the routines, but not the routines themselves. The following
+gives an example.
+
+\subsection{Computing Machine Epsilon}
+
+A code was written to test the computation of a machine epsilon in both single
+precision and double precision. The code is:
+
+\begin{verbatim}
+c
+c coding language:    Fortran 77
+c
+c ------------------------------------------------------------------------------
+c
+c written by:         Joe Koebbe
+c date written:       Sept 28, 2014
+c written for:        Problem Set 1
+c course:             Math 5610
+c
+c purpose:            Determine a machine epsilon for the computers I would like
+c                     work on computationally. The code contains 2 subroutines.
+c
+c                     smacsps - returns the single precision value for machine
+c                               precision
+c                     dmacsps - returns the double precision value for machine
+c                               precision
+c
+c ------------------------------------------------------------------------------
+c
+      program main
+c
+c do the work in double precision
+c -------------------------------
+c
+      real sval
+      real*8 dval
+c
+c single precision test
+c ---------------------
+c
+      call smaceps(sval, ipow)
+      print *, ipow, sval
+      call dmaceps(dval, ipow)
+      print *, ipow, dval
+c
+c done
+c ----
+c
+      stop
+      end
+\end{verbatim}
+
+The results from running the code as shown are the following:
+
+\begin{verbatim}
+          24   5.96046448E-08
+          53   1.1102230246251565E-016
+\end{verbatim}
+
+Not that this indicates that in single precision, the maximum exponent in base
+two that can be used is $24$ and the smallest value we can observe is about
+$10^{-8}$ or about 8 digits of precision. Also, this indicates that in double
+precision, the maximum exponent in base two that can be used is $53$ and the
+smallest value we can observe is about $10^{-16}$ or about 16 digits of
+precision.

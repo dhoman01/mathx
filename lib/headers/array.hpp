@@ -9,6 +9,10 @@ namespace mathx {
 
 /**
 * @brief This class is a variable size, random-access data structure for type T
+* @details As working with raw pointers can be dangerous and hard to debug, this
+* class serves as a wrapper of a pointer container of type T. Included in this
+* class are helper methods to accomplish tasks such as adding to vectors, doting
+* two vectors, and dynamically extending the container via a push method.
 */
 template<class T>
 class array{
@@ -212,7 +216,7 @@ public:
 
   /**
   * @brief An iterator class for array
-  * @detail This class enables use of array in
+  * @details This class enables use of array in
   * functions expecting iterators such as for each loops
   */
   class iterator {

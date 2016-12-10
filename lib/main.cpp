@@ -37,7 +37,7 @@ void problem1(bool debug){
 
     if(debug) std::cout << "eigenvalue: " << maxEigen.first << std::endl;
     std::cout << "\nn = " << n << std::endl;
-    // Av= ƛv
+    // Av= lambda v
     std::cout << "Av=\u03BBv" << std::endl;
     std::cout << "error = " << mathx::vectors::euclideanLength(vstar - maxEigen.second * maxEigen.first) << std::endl;
     doPrintRunningTime(end - start);
