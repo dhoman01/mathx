@@ -1,0 +1,55 @@
+----------------------------------------------
+                Problem Two                   
+----------------------------------------------
+Small condition number: 1
+Large condition number: 5.006e+06
+
+
+
+
+n = 16
+One-Condition Number: 75.7895
+Infinity-Condition Number: 80.1819
+n = 32
+One-Condition Number: 238.852
+Infinity-Condition Number: 252.025
+n = 64
+One-Condition Number: 342.737
+Infinity-Condition Number: 358.238
+n = 128
+One-Condition Number: 1226.86
+Infinity-Condition Number: 1081.76
+n = 256
+One-Condition Number: 53802.2
+Infinity-Condition Number: 10546.7
+----------------------------------------------
+                Problem Three                 
+----------------------------------------------
+hybrid result = 2.73205
+
+***     Time spent executing: 0 seconds 0 milliseconds and 9 microseconds     ***
+secant result = -nan
+
+***     Time spent executing: 0 seconds 0 milliseconds and 0 microseconds     ***
+----------------------------------------------
+                Problem Four                  
+----------------------------------------------
+Error with no pivot:                1.65028e-14
+Error with scaled-partial pivoting: 5.32754e-14
+Error with no pivot:                2.06923e-12
+Error with scaled-partial pivoting: 6.49987e-14
+Error with no pivot:                7.51465e-13
+Error with scaled-partial pivoting: 2.48969e-12
+Error with no pivot:                6.38446e-11
+Error with scaled-partial pivoting: 1.32385e-10
+Error with no pivot:                1.66498e-10
+Error with scaled-partial pivoting: 1.30228e-10
+Pivoting was better 3 times.
+----------------------------------------------
+                Problem Five                  
+----------------------------------------------
+Error: 14.0138
+Error: 4.93849
+Error: 9.53884
+Error: 4.8908
+Error: 9.89893e-12

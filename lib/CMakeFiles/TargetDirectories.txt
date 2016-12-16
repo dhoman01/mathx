@@ -1,0 +1,3 @@
+/home/dustin/Documents/math5610/lib/CMakeFiles/edit_cache.dir
+/home/dustin/Documents/math5610/lib/CMakeFiles/rebuild_cache.dir
+/home/dustin/Documents/math5610/lib/CMakeFiles/Mathx.dir

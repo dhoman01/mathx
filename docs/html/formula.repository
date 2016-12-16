@@ -1,0 +1,93 @@
+\form#0:$f(a)\cdot f(b)<0$
+\form#1:$f(a)\cdot f(c)<0$
+\form#2:$f(b)\cdot f(c)<0$
+\form#3:$f(a) < 0$
+\form#4:$f(b) > 0$
+\form#5:$a<b$
+\form#6:$f(a)$
+\form#7:$f(b)$
+\form#8:$b_{initial}-a_{initial}$
+\form#9:$g(x)$
+\form#10:$x$
+\form#11:$x=g(x)$
+\form#12:$f\in C^2[a,b]$
+\form#13:$k+1$
+\form#14:\[x_k-\frac{f(x_k)}{f'(x_k)}, k=0,1,2,\cdots\]
+\form#15:$C^2[a,b]$
+\form#16:\[x_{k+1}=x_k-\frac{f(x_k)(x_k-x_{k-1})}{f(x_k)-f(x_{k-1})}, k=0,1,2,\cdots \]
+\form#17:$f$
+\form#18:$f'(x)$
+\form#19:\[f'(x)=\frac{f(x+h)-f(x)}{h}+\frac{f''(\xi)h^2}{2}+\cdots\]
+\form#20:\[e_{abs}=\bigg|f'(x)-\frac{f(x+h)-f(x)}{h}\bigg|\leq\frac{f''(\xi)h^2}{2}\Rightarrow e_{abs}\leq Ch\]
+\form#21:$\xi$
+\form#22:$O(h)$
+\form#23:$f'$
+\form#24:$0<h<1$
+\form#25:\[f'(x)=\frac{f(x+h)-f(x-h)}{2h}+\frac{f^{(3)}(\xi)h^3}{12}+\cdots\]
+\form#26:\[e_{abs}=\bigg|f'(x)-\frac{f(x+h)-f(x-h)}{2h}\bigg|\leq\frac{f^{(3)}(\xi)h^3}{12}\Rightarrow e_{abs}\leq Ch^2\]
+\form#27:$O(h^2)$
+\form#28:\[p_n(x)=(\cdots((c_nx+c_{n-1})x + c_{n-2})x \cdots)x + c_0 \]
+\form#29:$p(x)=c_0+c_1x+c_2x^2+\cdots+c_nx^2 $
+\form#30:$p$
+\form#31:$A^TA$
+\form#32:$U\textbf{x}=\textbf{b}$
+\form#33:\[x_k=\frac{b_k-\sum_{j=k+1}^na_{kj}x_j}{a_{kk}}\quad[1].\]
+\form#34:$L\textbf{x}=\textbf{b}$
+\form#35:\[x_k=\frac{b_k-\sum_{j=1}^{k-1}a_{kj}x_j}{a_{kk}}\quad[1].\]
+\form#36:$L$
+\form#37:$U$
+\form#38:$A=GG^{T}$
+\form#39:$G=LD^{1/2}$
+\form#40:$A$
+\form#41:$A\in R^{nxn}$
+\form#42:$A_{i,j}=A_{j,i}$
+\form#43:$Q$
+\form#44:\[\textbf{x}_{k+1} = \textbf{x}_k + D^{-1}\textbf{r}_k\quad[1].\]
+\form#45:\[\textbf{x}_{k+1}=\textbf{x}_k+E^{-1}\textbf{r}_k\quad[1].\]
+\form#46:\[\textbf{x}_{k+1}=\textbf{x}_k+\alpha\textbf{p}_k\quad[1].\]
+\form#47:$\textbf{p}_k$
+\form#48:$\alpha$
+\form#49:$k^{th}$
+\form#50:$A^{-1}$
+\form#51:$||A||\cdot||A^{-1}||$
+\form#52:$[a,b]$
+\form#53:$\lambda,\textbf{v}$
+\form#54:$k(A)$
+\form#55:$\varepsilon$
+\form#56:$<\textbf{v},\textbf{w}>$
+\form#57:$l_2$
+\form#58:$||v||_2$
+\form#59:$\textbf{v}\times\textbf{w}$
+\form#60:$l_1$
+\form#61:$||v||_1$
+\form#62:$l_\infty$
+\form#63:$||v||_\infty$
+\form#64:$(x_i,y_i)$
+\form#65:\[\begin{align*}f[x_i]&=f(x_i)\\f[x_i,\cdots,x_j]&=\frac{f[x_{i+1},\cdots,x_j]-f[x_i,\cdots,x_{j-1}]}{x_j-x_i}.\end{align*}\]
+\form#66:$\begin{align*}f[x_i]&=f(x_i)\\f[x_i,\cdots,x_j]&=\frac{f[x_{i+1},\cdots,x_j]-f[x_i,\cdots,x_{j-1}]}{x_j-x_i}.\end{align*}$
+\form#67:\begin{align*}f[x_i]&=f(x_i)\\f[x_i,\cdots,x_j]&=\frac{f[x_{i+1},\cdots,x_j]-f[x_i,\cdots,x_{j-1}]}{x_j-x_i}.\end{align*}
+\form#68:\begin{eqnarray*}f[x_i]&=f(x_i)\\f[x_i,\cdots,x_j]&=\frac{f[x_{i+1},\cdots,x_j]-f[x_i,\cdots,x_{j-1}]}{x_j-x_i}.\end{eqnarray*}
+\form#69:\begin{eqnarray*}f[x_i]&=&f(x_i)\\f[x_i,\cdots,x_j]&=&\frac{f[x_{i+1},\cdots,x_j]-f[x_i,\cdots,x_{j-1}]}{x_j-x_i}.\end{eqnarray*}
+\form#70:$O(n^3)$
+\form#71:$n<10000$
+\form#72:$n$
+\form#73:$O(n)$
+\form#74:$g\in C[a,b]$
+\form#75:$a\leq g(x)\leq b$
+\form#76:$x\in [a,b]$
+\form#77:$x^{*}$
+\form#78:$g$
+\form#79:$\rho<1$
+\form#80:\[|g'(x)|\leq \rho\quad\quad\textrm{for all }x\in [a,b],\]
+\form#81:\[x_{k+1}=x_k-\frac{f(x_k)}{f'(x_k)}.\]
+\form#82:$O(n^2)$
+\form#83:\[f'(x_k)\approx \frac{f(x_k)-f(x_{k-1})}{x_k-x_{k-1}}.\]
+\form#84:$a$
+\form#85:$b$
+\form#86:$|f_{k+1}|<0.5|f_k|$
+\form#87:$f(x)=(x-1)^2-3$
+\form#88:\[x_k=\frac{b_k-\sum_{j=k+1}^na_{kj}x_j}{a_{kk}}\quad@cite AscherGrief\]
+\form#89:\[x_k=\frac{b_k-\sum_{j=1}^{k-1}a_{kj}x_j}{a_{kk}}\quad@cite AscherGrief\]
+\form#90:\[\textbf{x}_{k+1} = \textbf{x}_k + D^{-1}\textbf{r}_k\quad@cite AscherGrief\]
+\form#91:\[\textbf{x}_{k+1}=\textbf{x}_k+E^{-1}\textbf{r}_k\quad@cite AscherGrief\]
+\form#92:\[\textbf{x}_{k+1}=\textbf{x}_k+\alpha\textbf{p}_k\quad@cite AscherGrief\]

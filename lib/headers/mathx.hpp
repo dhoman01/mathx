@@ -7,7 +7,13 @@
 #include "array.hpp"
 #include "matrix.hpp"
 #include "linsolv.hpp"
+#include "interpolation.hpp"
 
+/*! @mainpage Introduction
+* \section Introduction
+* Mathx is a software package developed to solve several problems in the realm of computational linear algebra. This package was developed as part of the MATH 5610 course at Utah State University, Fall 2016. The contents of this manual include the methods used to solve problems such as finding roots of polynomials, solving linear systems, using linear systems to solve the least-squares problem, and function approximation.\n\n
+* Mathx is organized based on namespace. Each namespace includes multiple functions related to that namespace. Descriptions of the namespaces can be found at the beginning of each detailed documentation of that namespace. The source code is included inline after the signature, brief, description, and parameter listing of each function.
+*/
 namespace mathx {
 
 /**
@@ -48,7 +54,7 @@ struct complex {
   }
 };
 }
-#include "integration.hpp"
+
 #include "utils.hpp"
 #include "roots.hpp"
 

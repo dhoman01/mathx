@@ -31,19 +31,7 @@ namespace precision {
 * @brief This method calculates the machine's epsilon based on the data type T.
 * @details The method calculates the smallest value such that when added
 * to 1 it is not equal to 1.
-* Example of use:
-* \code{.cpp}
-* #include "mathx.hpp"
-*
-* double dbl_eps = mathx::utils::precision::machine_epsilon<double>();
-* float flt_eps = mathx::utils::precision::machine_epsilon<float>();
-*
-* std::cout << "Double precision=" << dbl_eps << std::endl;
-* std::cout << "Single precision=" << flt_eps << std::endl;
-* // Output:
-* // Double precision=2.220446e-16
-* // Single precision=1.192093e-07
-* \endcode
+* @returns \f$\varepsilon\f$ - the machine precision
 */
 template <typename T>
 T machine_epsilon() {
@@ -56,12 +44,17 @@ T machine_epsilon() {
 
   return std::pow(2, pow + 1);
 };
+
 }
+
+/** @example precision.cpp
+* This example shows how to find machine precision for both single and double.
+*/
 
 /*! The error namespace contains useful methods for calulating error. */
 namespace error {
 
-// clang-format off
+
 /**
 * @brief Calculates the absolute error of an approximation of \f$f'(x)\f$ using
 * a one-sided difference formula.
@@ -74,17 +67,6 @@ namespace error {
 * Where \f$\xi\f$ is some unknown constant. If \f$\xi\f$ was known then the
 * absolute error would be known exactly.
 * This approximation is \f$O(h)\f$.
-* Example of use:
-* \code{.cpp}
-* #include "mathx.hpp"
-*
-* auto f = [](double x){ return std::exp(-2*x); };
-* auto df = [](double x){ return -2*std::exp(-2*x); };
-* auto e_abs = mathx::utils::error::one_sided_difference(f, df, 0.5, std::pow(10,-8));
-*
-* std::cout << "Absolute error: " << std::endl;
-* // Output: Absolute error: 7.447261e-10
-* \endcode
 * @param f A function of the type double(double)
 * @param df The derivative of \f$f\f$. Also of the type double(double). If the
 * derivative is not known (or easily calculable) pass a function returning the
@@ -92,12 +74,13 @@ namespace error {
 * @param x The value to evaluate \f$f\f$ and \f$f'\f$ at
 * @param h The amount to add to x. h is typically expressed as 1.e-8 and
 * \f$0<h<1\f$
+* @returns e - the error of a one sided difference approximation
 */
-// clang-format off
+
 double one_sided_difference(function *f, function *df, double x, double h) {
   return absolute_value(df(x) - (f(x + h) - f(x)) / h);
 }
-// clang-format off
+
 /**
 * @brief Calculates the absolute error of an approximation of \f$f'(x)\f$ using a
 * central-difference formula.
@@ -110,17 +93,6 @@ double one_sided_difference(function *f, function *df, double x, double h) {
 * Where \f$\xi\f$ is some unknown constant. If \f$\xi\f$ was known then the
 * absolute error would be known exactly.
 * This approximation is \f$O(h^2)\f$.
-* Example of use:
-* \code{.cpp}
-* #include "mathx.hpp"
-*
-* auto f = [](double x){ return std::exp(-2*x); };
-* auto df = [](double x){ return -2*std::exp(-2*x); };
-* auto e_abs = mathx::utils::error::central_difference(f, df, 0.5, std::pow(10,-8));
-*
-* std::cout << "Absolute error: " << std::endl;
-* // Output: Absolute error: 2.030832e-09
-* \endcode
 * @param f A function of the type double(double)
 * @param df The derivative of \f$f\f$. Also of the type double(double). If the
 * derivative is not known (or easily calculable) pass a function returning the
@@ -128,52 +100,80 @@ double one_sided_difference(function *f, function *df, double x, double h) {
 * @param x The value to evaluate \f$f\f$ and \f$f'\f$ at
 * @param h The amount to add to x. h is typically expressed as 1.e-8 and
 * \f$0<h<1\f$
+* @returns e - the error of a central difference approximation
 */
-// clang-format on
+
 double central_difference(function *f, function *df, double x, double h) {
   if (h == 0) throw divide_by_zero;
   return absolute_value(df(x) - (f(x + h) - f(x - h)) / (2 * h));
 }
 
-// clang-format off
+
 /**
 * @brief Calculates the absolute error in the approximation of one number  of type T by another.
 * @details Absolute error of two numbers of type T is defined as:
 * \f[|x-x_0|<\epsilon_{abs}, \textrm{ where $x$ and $y$ are type T}
 * @param x A number approximation of type T and is greater than 0
 * @param x0 An approximation of x
+* @returns e - the absolute error of the two inputs
 */
-// clang-format on
 template <typename T>
 T e_abs(T x, T x0) {
   return absolute_value(x - x0);
 }
 
+/**
+* @brief Calculates the absolute error in the approximation of one number  of type mathx::complex<T> by another.
+* @details Absolute error of two numbers of type mathx::complex<T> is defined as:
+* \f[|x-x_0|<\epsilon_{abs}, \textrm{ where $x$ and $y$ are type mathx::complex<T>}
+* @param x A number approximation of type mathx::complex<T> and is greater than 0
+* @param x0 An approximation of x
+* @returns e - the absolute error of the two inputs
+*/
 template <typename T>
 T e_abs(mathx::complex<T> x, mathx::complex<T> x0) {
   return absolute_value(x - x0);
 }
 
+/**
+* @brief Calculates the relative error in the approximation of one number  of type T by another.
+* @details Relative error of two numbers of type T is defined as:
+* \f[\frac{|x-x_0|}{|x|}<\epsilon_{rel}, \textrm{ where $x$ and $y$ are type T}
+* @param x A number approximation of type T and is greater than 0
+* @param x0 An approximation of x
+* @returns e - the relative error of the two inputs
+*/
 template <typename T>
 T e_rel(T x, T x0) {
   if (x == 0) throw divide_by_zero;
   return absolute_value(x - x0) / absolute_value(x);
 }
 
+/**
+* @brief Calculates the relative error in the approximation of one number  of type mathx::complex<T> by another.
+* @details Relative error of two numbers of type mathx::complex<T> is defined as:
+* \f[\frac{|x-x_0|}{|x|}<\epsilon_{rel}, \textrm{ where $x$ and $y$ are type mathx::complex<T>}
+* @param x A number approximation of type mathx::complex<T> and is greater than 0
+* @param x0 An approximation of x
+* @returns e - the relative error of the two inputs
+*/
 template <typename T>
 T e_rel(mathx::complex<T> x, mathx::complex<T> x0) {
   if (x.real == 0 && x.imaginary == 0) throw divide_by_zero;
   return absolute_value(x - x0) / absolute_value(x);
 }
+
 }
 
 namespace poly {
+
 /**
 * @brief This method evaluates a polynomial using the nested method.
 * @details The nested method of evaluating a polynomial is as follows:
 * \f[p_n(x)=(\cdots((c_nx+c_{n-1})x + c_{n-2})x \cdots)x + c_0 \f]
 * @param coeff - an array of the coefficients of the polynomial. \f$p(x)=c_0+c_1x+c_2x^2+\cdots+c_nx^2 \f$
 * @param x - the value to evaluate \f$p\f$ at
+* @returns f(x) - the evaluation of \f$f\f$ at \f$x\f$
 */
 template<typename T>
 T nested_eval(array<T> coeff, T x){
@@ -188,8 +188,11 @@ T nested_eval(array<T> coeff, T x){
   // Return answer
   return p;
 }
+
 }
+
 }
+
 }
 
 #endif

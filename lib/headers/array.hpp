@@ -112,7 +112,7 @@ public:
 
   /**
   * Gets an element from the array
-  * @param i - index of element. i < mysize
+  * @param i - index of element. i < my_size
   */
   T get(int i){ if(i < my_size) return container[i]; else throw std::runtime_error("index out of bounds"); };
 
@@ -138,13 +138,13 @@ public:
 
   /**
   * Overload of array index operators. Same as get(i)
-  * @param i - index of element. i < mysize
+  * @param i - index of element. i < my_size
   */
   T& operator[](std::size_t i){ return container[i]; };
 
   /**
   * Overload of array index operators. Same as get(i)
-  * @param i - index of element. i < mysize
+  * @param i - index of element. i < my_size
   */
   T& operator[](std::size_t i) const { return container[i]; };
 
@@ -191,7 +191,7 @@ public:
   */
   array<T> operator*(const T& rhs){
     array<T> n = *this;
-    for(int i = 0; i < mysize; i++){
+    for(int i = 0; i < my_size; i++){
       n[i] *= rhs;
     }
 
@@ -204,7 +204,7 @@ public:
   std::string to_string(){
     std::stringstream ss;
     ss << "[ ";
-    for(int i = 0; i < mysize; i++){
+    for(int i = 0; i < my_size; i++){
       ss << container[i] << " ";
     }
     ss << " ]^T";
@@ -256,7 +256,7 @@ public:
   /**
   * Points to the "past-the-end element" of the array
   */
-  iterator end() { return iterator(container + mysize); };
+  iterator end() { return iterator(container + my_size); };
 };
 
 // PRIVATE METHODS
@@ -353,6 +353,10 @@ void array<T>::clear(){
   // Destroy elements
   delete[] array<T>::container;
 };
+
+/** @example array.cpp
+* This is an example of how to use the array class
+*/
 
 }
 

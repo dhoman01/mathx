@@ -298,6 +298,9 @@ public:
   }
 };
 
+/** @example matrix.cpp
+* This is an example of how to use the matrix class
+*/
 };
 
 #endif

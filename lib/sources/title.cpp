@@ -1,3 +1,0 @@
-/*! @mainpage Introduction
- * The purpose of Mathx is to provide solutions to computational linear algebra prolems that were covered in MATH 5610. As a foundation of the course were the ideas of machine precision and round-off error. These ideas led to a focus on developing algorithms that were roboust, accurate, and efficient. Particular problems discussed include finding roots of polynomials, solutions to linear systems, using linear systems to solve the least-squares problem, and function approximation. Several solutions were discussed for each problem and then were implemented and analyzed.
- */

@@ -1,0 +1,1 @@
+/usr/bin/c++    -std=c++11 -O0 -g3 -Wall -pthread   CMakeFiles/Mathx.dir/main.cpp.o  -o Mathx -rdynamic 
