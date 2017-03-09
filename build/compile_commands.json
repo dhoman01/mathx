@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/home/dustinehoman/Documents/school/mathx/build",
+  "command": "/usr/bin/c++    -I/home/dustinehoman/Documents/school/mathx/lib/./headers -I/home/dustinehoman/Documents/school/mathx/lib/./sources -I/home/dustinehoman/Documents/school/mathx/lib/./tests -I/home/dustinehoman/Documents/school/mathx/lib/./gtest-1.8.0   -std=c++14 -O0 -g3 -Wall -pthread -g   -o CMakeFiles/Mathx.dir/main.cpp.o -c /home/dustinehoman/Documents/school/mathx/lib/main.cpp",
+  "file": "/home/dustinehoman/Documents/school/mathx/lib/main.cpp"
+}
+]

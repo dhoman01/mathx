@@ -1,0 +1,3 @@
+/home/dustinehoman/Documents/school/mathx/build/CMakeFiles/edit_cache.dir
+/home/dustinehoman/Documents/school/mathx/build/CMakeFiles/rebuild_cache.dir
+/home/dustinehoman/Documents/school/mathx/build/CMakeFiles/Mathx.dir

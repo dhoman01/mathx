@@ -132,6 +132,32 @@ public:
   }
 
   /**
+  * Multiply by scalar
+  */
+  matrix<T>& operator*(const T& rhs){
+    for(int i = 0; i < row; i++){
+      for(int j = 0; j < col; j++){
+        container[i][j] *= rhs;
+      }
+    }
+
+    return *this;
+  }
+
+  /**
+  * Add two matrices
+  */
+  matrix<T>& operator+(const matrix<T>& rhs){
+    for(int i = 0; i < row; i++){
+      for(int j = 0; j < col; j++){
+        container[i][j] += rhs[i][j];
+      }
+    }
+
+    return *this;
+  }
+
+  /**
   * Overload of matrix index operators. Same as get(i)
   * @param i - index of element. i < mysize
   */
